@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using YediginiBil.Entities;
 
-namespace YediginiBil.Entities
+namespace Yediginibil.WebUI.Areas.Admin.Models.Product
 {
-    public class Product
+    public class AddViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -25,5 +26,7 @@ namespace YediginiBil.Entities
         public DateTime UpdatedDate { get; set; }
 
         public List<ProductImages> ProductImages { get; set; }
+
+        public IFormFile File { get; set; }
     }
 }
