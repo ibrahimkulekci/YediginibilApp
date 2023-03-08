@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@ViewData["Title"] - Yediğini Bil</title>
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="~/atheme/assets/styles/style.min.css">
+
+    <!-- Material Design Icon -->
+    <link rel="stylesheet" href="~/atheme/assets/fonts/material-design/css/materialdesignicons.css">
+
+    <!-- mCustomScrollbar -->
+    <link rel="stylesheet" href="~/atheme/assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css">
+
+    <!-- Waves Effect -->
+    <link rel="stylesheet" href="~/atheme/assets/plugin/waves/waves.min.css">
+
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" href="~/atheme/assets/plugin/sweet-alert/sweetalert.css">
+
+    <!-- Dark Themes -->
+    <link rel="stylesheet" href="~/atheme/assets/styles/style-dark.min.css">
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+    <div class="main-menu">
+        <header class="header">
+            <a href="~/Admin/" class="logo"><i class="ico mdi mdi-cube-outline"></i>Yediğini Bil</a>
+            <button type="button" class="button-close fa fa-times js__menu_close"></button>
+        </header>
+        <!-- /.header -->
+        <div class="content">
+            <div class="navigation">
+                <h5 class="title">Menü</h5>
+                <!-- /.title -->
+                <ul class="menu js__accordion">
+                    <li>
+                        <a class="waves-effect" href="~/Admin/"><i class="menu-icon mdi mdi-view-dashboard"></i><span>Anasayfa</span></a>
+                    </li>
+                </ul>
+                <!-- /.menu js__accordion -->
+            </div>
+            <!-- /.navigation -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.main-menu -->
+
+    <div class="fixed-navbar">
+        <div class="pull-left">
+            <button type="button" class="menu-mobile-button glyphicon glyphicon-menu-hamburger js__menu_mobile"></button>
+            <h1 class="page-title">@ViewData["Title"]</h1>
+            <!-- /.page-title -->
+        </div>
+        <!-- /.pull-left -->
+        <div class="pull-right">
+            <!-- /.ico-item -->
+            <a href="#" class="ico-item mdi mdi-logout js__logout"></a>
+        </div>
+        <!-- /.pull-right -->
+    </div>
+    <!-- /.fixed-navbar -->
+    <div id="wrapper">
+        <div class="main-content">
+
+            @RenderBody()
+
+            <footer class="footer">
+                <ul class="list-inline">
+                    <li>2023 © Yediğini Bil.</li>
+                </ul>
+            </footer>
+        </div>
+        <!-- /.main-content -->
+    </div><!--/#wrapper -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/script/html5shiv.min.js"></script>
+        <script src="assets/script/respond.min.js"></script>
+    <![endif]-->
+    <!--
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="~/atheme/assets/scripts/jquery.min.js"></script>
+    <script src="~/atheme/assets/scripts/modernizr.min.js"></script>
+    <script src="~/atheme/assets/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/atheme/assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/atheme/assets/plugin/nprogress/nprogress.js"></script>
+    <script src="~/atheme/assets/plugin/sweet-alert/sweetalert.min.js"></script>
+    <script src="~/atheme/assets/plugin/waves/waves.min.js"></script>
+
+    <script src="~/atheme/assets/scripts/main.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

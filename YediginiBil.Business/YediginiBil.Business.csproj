@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YediginiBil.DataAccess\YediginiBil.DataAccess.csproj" />
+    <ProjectReference Include="..\YediginiBil.Entities\YediginiBil.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

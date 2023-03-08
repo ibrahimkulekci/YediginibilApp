@@ -1,0 +1,149 @@
+﻿@model IEnumerable<YediginiBil.Entities.Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!--=====================================
+                RECENT PART START
+    =======================================-->
+<section class="section recent-part" style="margin-top: 25px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-heading">
+                    <h2>Yeni Ürünler</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="product-card">
+                        <div class="product-media">
+                            <div class="product-label">
+                                <label class="label-text sale">katkısız</label>
+                            </div>
+                            <a class="product-image" href="~/Product/Details/@item.Id/@item.SeoUrl">
+                                @*<a class="product-image" asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" asp-route-seourl="@item.SeoUrl">*@
+                                <img src="~/theme/images/product/product1.jpg" alt="product">
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <h6 class="product-name">
+                                <a href="~/Product/Details/@item.Id/@item.SeoUrl">@item.Title</a>
+                            </h6>
+                            <a class="product-add" href="~/Product/Details/@item.Id/@item.SeoUrl">
+                                <span>ürünü incele</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-btn-25">
+                    <a href="shop-4column.html" class="btn btn-outline">
+                        <i class="fas fa-eye"></i>
+                        <span>Tüm Ürünleri Gör</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=====================================
+            RECENT PART END
+=======================================-->
+<!--=====================================
+              BLOG PART START
+=======================================-->
+<section class="section blog-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h2>Blog</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="blog-slider slider-arrow">
+                    <div class="blog-card">
+                        <div class="blog-media">
+                            <a class="blog-img" href="#">
+                                <img src="~/theme/images/blog/01.jpg" alt="blog">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <h4 class="blog-title">
+                                <a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a>
+                            </h4>
+                            <p class="blog-desc">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ...
+                            </p>
+                            <a class="blog-btn" href="#">
+                                <span>devamını oku</span>
+                                <i class="icofont-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-media">
+                            <a class="blog-img" href="#">
+                                <img src="~/theme/images/blog/01.jpg" alt="blog">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <h4 class="blog-title">
+                                <a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a>
+                            </h4>
+                            <p class="blog-desc">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ...
+                            </p>
+                            <a class="blog-btn" href="#">
+                                <span>devamını oku</span>
+                                <i class="icofont-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <div class="blog-media">
+                            <a class="blog-img" href="#">
+                                <img src="~/theme/images/blog/01.jpg" alt="blog">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <h4 class="blog-title">
+                                <a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a>
+                            </h4>
+                            <p class="blog-desc">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ...
+                            </p>
+                            <a class="blog-btn" href="#">
+                                <span>devamını oku</span>
+                                <i class="icofont-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-btn-25">
+                    <a href="blog-grid.html" class="btn btn-outline">
+                        <i class="fas fa-eye"></i>
+                        <span>tüm blogları gör</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=====================================
+              BLOG PART END
+=======================================-->
