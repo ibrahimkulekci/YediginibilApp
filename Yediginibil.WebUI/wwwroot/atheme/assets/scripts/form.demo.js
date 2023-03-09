@@ -23,7 +23,8 @@
 	if ($('.select2_1').length) $(".select2_1").select2();
 
 	if ($('.select2_2').length) $(".select2_2").select2({
-		tags: true
+		tags: true,
+		matcher: matchStart
 	});
 
 	if ($('.multiselect').length) $('.multiselect').multiselect();

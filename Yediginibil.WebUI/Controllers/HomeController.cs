@@ -21,7 +21,7 @@ namespace Yediginibil.WebUI.Controllers
 
         public IActionResult Index()
         {
-            return View(_productService.GetAll());
+            return View(_productService.GetAll().OrderByDescending(x=>x.Id).ToList());
         }
     }
 }

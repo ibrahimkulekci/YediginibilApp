@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,9 +15,13 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private IProductService _productService;
+        private IBrandService _brandService;
+        private IIngredientService _ingredientService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IIngredientService ingredientService,IBrandService brandService, IProductService productService)
         {
+            _ingredientService = ingredientService;
+            _brandService = brandService;
             _productService = productService;
         }
 
@@ -27,7 +32,11 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View();
+            AddViewModel model = new AddViewModel();
+            model.Brands = _brandService.GetAll();
+            model.SelectIngredients = GetIngredientSelectList();
+
+            return View(model);
         }
         [HttpPost]
         public IActionResult Add(AddViewModel model)
@@ -62,6 +71,12 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             _productService.Create(record);
             TempData["message"] = "SuccessAdd";
             return Redirect("~/Admin/Product");
+        }
+
+        [NonAction]
+        private List<SelectListItem> GetIngredientSelectList()
+        {
+            return _ingredientService.GetAll().Select(r => new SelectListItem() { Value = r.Id.ToString(), Text = string.Format("{0}", r.Title) }).ToList();
         }
     }
 }

@@ -29,6 +29,15 @@ namespace Yediginibil.WebUI
             services.AddScoped<IProductDal, EfCoreProductDal>();
             services.AddScoped<IProductService, ProductManager>();
 
+            services.AddScoped<IBrandDal, EfCoreBrandDal>();
+            services.AddScoped<IBrandService, BrandManager>();
+
+            services.AddScoped<IIngredientDal, EfCoreIngredientDal>();
+            services.AddScoped<IIngredientService, IngredientManager>();
+
+            services.AddScoped<IProductIngredientDal, EfCoreProductIngredientDal>();
+            services.AddScoped<IProductIngredientService, ProductIngredientManager>();
+
 
             services.AddControllersWithViews();
         }

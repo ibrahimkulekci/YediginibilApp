@@ -23,5 +23,8 @@ namespace YediginiBil.DataAccess.Concrete.EfCore
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImages> ProductImages { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+
     }
 }

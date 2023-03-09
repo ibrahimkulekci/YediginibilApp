@@ -10,6 +10,8 @@
     <script src="~/atheme/assets/plugin/tinymce/tinymce.min.js"></script>
     <!-- Dropify -->
     <link rel="stylesheet" href="~/atheme/assets/plugin/dropify/css/dropify.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/atheme/assets/plugin/select2/css/select2.min.css">
 }
 
 
@@ -30,16 +32,20 @@
                     </div>
                     <div class="form-group">
                         <label>Ürün Markası</label>
-                        <select class="form-control">
-                            <option value="">Marka seçiniz</option>
-                            <option value="1">Ülker</option>
-                            <option value="2">Eti</option>
-                            <option value="3">Saray</option>
+                        <select class="form-control" name="BrandId">
+                            @foreach (var brands in Model.Brands)
+                            {
+                                <option value="@brands.Id">@brands.Title</option>
+                            }
                         </select>
                     </div>
                     <div class="form-group">
                         @Html.Label("Ürün Kısa Açıklaması")
                         @Html.TextAreaFor(x => x.ShortDescription, new { @class = "form-control", @id = "inp-type-5", @placeholder = "Ürün kısa açıklamasını giriniz" })
+                    </div>
+                    <div class="form-group">
+                        <label>Ürün İçindekileri</label>
+                        @Html.DropDownListFor(m => m.IngredientsList, Model.SelectIngredients, new { @class = "form-control select2_1", multiple = "true" })
                     </div>
                     <div class="form-group">
                         @Html.Label("Ürün Uzun Açıklaması")
@@ -135,4 +141,13 @@
     <!-- Dropify -->
     <script src="~/atheme/assets/plugin/dropify/js/dropify.min.js"></script>
     <script src="~/atheme/assets/scripts/fileUpload.demo.min.js"></script>
+
+    <!-- Select2 -->
+    <script src="~/atheme/assets/plugin/select2/js/select2.min.js"></script>
+
+    <!-- Multi Select -->
+    <script src="~/atheme/assets/plugin/multiselect/multiselect.min.js"></script>
+
+    <!-- Demo Scripts -->
+    <script src="~/atheme/assets/scripts/form.demo.min.js"></script>
 }
