@@ -19,9 +19,10 @@ namespace Yediginibil.WebUI.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page =1)
         {
-            return View(_productService.GetAll().OrderByDescending(x=>x.Id).ToList());
+            const int pageSize = 10;
+            return View(_productService.GetAll(page, pageSize).OrderByDescending(x=>x.Id).ToList());
         }
     }
 }

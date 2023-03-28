@@ -1,4 +1,4 @@
-﻿
+﻿@model Yediginibil.WebUI.Models.Product.DetailsViewModel
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,24 +23,15 @@
                         <label class="details-label sale">katkısız</label>
                     </div>
                     <ul class="details-preview">
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                    </ul>
-                    <ul class="details-thumb">
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
-                        <li><img src="~/theme/images/product/01.jpg" alt="product"></li>
+                        @*<li><img src="~/@Model.Product.ImageUrl" alt="product"></li>*@
+                        <li><img src="~/@Model.ImageUrl" alt="product"></li>
                     </ul>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="details-content">
-                    <h3 class="details-name"><a href="#">existing product name</a></h3>
+                    @*<h3 class="details-name"><a href="#">@Model.Product.Title</a></h3>*@
+                    <h3 class="details-name"><a href="#">@Model.Title</a></h3>
                     <div class="details-rating">
                         <i class="active icofont-star"></i>
                         <i class="active icofont-star"></i>
@@ -49,13 +40,15 @@
                         <i class="icofont-star"></i>
                         <a href="#">(3 reviews)</a>
                     </div>
-                    <p class="details-desc">Buraya ürün hakkında kısa bir açıklama yazısı gelecek.</p>
+                    @*<p class="details-desc">@Model.Product.ShortDescription</p>*@
+                    <p class="details-desc">@Model.ShortDescription</p>
                     <div class="details-list-group">
                         <label class="details-list-title">İçindekiler:</label>
                         <ul class="details-tag-list">
-                            <li><a href="#">organic</a></li>
-                            <li><a href="#">fruits</a></li>
-                            <li><a href="#">chilis</a></li>
+                            @foreach (var item in Model.Ingredients)
+                            {
+                                <li><a href="@item.Id">@item.Title</a></li>
+                            }
                         </ul>
                     </div>
                     <div class="details-list-group">
@@ -144,12 +137,19 @@
                 <div class="product-details-frame">
                     <h3 class="frame-title">Ürün Açıklaması</h3>
                     <div class="tab-descrip">
-                        <p>Ürün hakkında uzun açıklama yazısı buraya gelecek.</p>
+                        @*@Html.Raw(Model.Product.LongDescription)*@
+                        @Html.Raw(Model.LongDescription)
                     </div>
                 </div>
                 <div class="product-details-frame">
-                    <h3 class="frame-title">Özellikler</h3>
+                    <h3 class="frame-title">Besin Değerleri</h3>
                     <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td>Besin Değeri</td>
+                                <td>100 g / ml</td>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr>
                                 <th scope="row">Product code</th>

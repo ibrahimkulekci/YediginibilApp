@@ -20,5 +20,9 @@ namespace YediginiBil.Entities
         public string SeoDescription { get; set; }
         public DateTime? CreatingDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+
+        public virtual ICollection<ProductIngredient> ProductIngredients { get; set; }
+
     }
 }

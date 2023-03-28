@@ -1,0 +1,159 @@
+﻿@model Yediginibil.WebUI.Areas.Admin.Models.Brand.AddViewModel
+@{
+    ViewData["Title"] = "Düzenle - Markalar";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles{
+    <!-- TinyMCE -->
+    <link rel="stylesheet" href="~/atheme/assets/plugin/tinymce/skins/lightgray/skin.min.css">
+    <!-- Must include this script FIRST -->
+    <script src="~/atheme/assets/plugin/tinymce/tinymce.min.js"></script>
+    <!-- Dropify -->
+    <link rel="stylesheet" href="~/atheme/assets/plugin/dropify/css/dropify.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/atheme/assets/plugin/select2/css/select2.min.css">
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
+}
+
+
+<div class="row small-spacing">
+    <div class="col-xs-12">
+        <div class="box-content">
+            <h4 class="box-title">@ViewData["Title"]</h4>
+            <!-- /.box-title -->
+            <div class="card-content">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        @Html.Label("Başlık")
+                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Açıklama")
+                        @Html.TextAreaFor(x => x.Description, new { @id = "tinymce", @placeholder = "Ürün açıklamasını giriniz" })
+                    </div>
+                    <div class="form-group">
+                        <label>Görsel</label>
+                        <br />
+                        <img src="~/@Model.Image" style="width:180px; height:auto;" />
+                        <br /><br />
+                        <input type="file" id="input-file-now-custom-1" class="dropify" name="File" />
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        @Html.Label("Seo Başlık")
+                        @Html.TextBoxFor(x => x.SeoTitle, new { @class = "form-control", @placeholder = "Ürün seo adını giriniz." })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Seo Url")
+                        @Html.TextBoxFor(x => x.SeoUrl, new { @class = "form-control", @placeholder = "Ürün seo url giriniz." })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Seo Açıklaması")
+                        <textarea name="SeoDescription" class="form-control" id="tinymce" placeholder="Ürün seo kısa açıklamasını giriniz.">@Html.Raw(Model.SeoDescription)</textarea>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Yayınlansın mı?")
+                        @Html.CheckBoxFor(m => m.Status)
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Güncelle</button>
+                    <div class="pull-right">
+                        <a class="btn btn-danger btn-sm waves-effect waves-light float-right" href="~/Admin/Brand/Delete/@Model.Id">Sil</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.box-content -->
+    </div>
+    <!-- /.col-xs-12 -->
+</div>
+
+@section Scripts{
+
+    <!-- TinyMCE -->
+    <!-- Plugin Files DON'T INCLUDES THESES FILES IF YOU USE IN THE HOST -->
+    <link rel="stylesheet" href="~/atheme/assets/plugin/tinymce/skins/lightgray/skin.min.css">
+    <script src="~/atheme/assets/plugin/tinymce/plugins/advlist/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/anchor/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/autolink/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/autoresize/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/autosave/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/bbcode/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/charmap/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/code/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/codesample/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/colorpicker/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/contextmenu/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/directionality/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/emoticons/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/example/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/example_dependency/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/fullpage/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/fullscreen/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/hr/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/image/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/imagetools/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/importcss/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/insertdatetime/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/layer/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/legacyoutput/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/link/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/lists/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/media/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/nonbreaking/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/noneditable/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/pagebreak/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/paste/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/preview/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/print/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/save/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/searchreplace/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/spellchecker/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/tabfocus/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/table/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/template/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/textcolor/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/textpattern/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/visualblocks/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/visualchars/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/plugins/wordcount/plugin.min.js "></script>
+    <script src="~/atheme/assets/plugin/tinymce/themes/modern/theme.min.js"></script>
+    <!-- Plugin Files DON'T INCLUDES THESES FILES IF YOU USE IN THE HOST -->
+
+    <script src="~/atheme/assets/scripts/tinymce.init.min.js"></script>
+
+    <!-- Dropify -->
+    <script src="~/atheme/assets/plugin/dropify/js/dropify.min.js"></script>
+    <script src="~/atheme/assets/scripts/fileUpload.demo.min.js"></script>
+
+    <!-- Select2 -->
+    <script src="~/atheme/assets/plugin/select2/js/select2.min.js"></script>
+
+    <!-- Multi Select -->
+    <script src="~/atheme/assets/plugin/multiselect/multiselect.min.js"></script>
+
+    <!-- Demo Scripts -->
+    <script src="~/atheme/assets/scripts/form.demo.min.js"></script>
+
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
+}

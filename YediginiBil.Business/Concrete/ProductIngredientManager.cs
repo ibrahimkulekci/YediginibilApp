@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YediginiBil.Business.Abstract;
+using YediginiBil.Business.Model.ProductIngredient;
 using YediginiBil.DataAccess.Abstract;
 using YediginiBil.Entities;
 
@@ -36,6 +37,11 @@ namespace YediginiBil.Business.Concrete
         public ProductIngredient GetById(int id)
         {
             return _productIngredientDal.GetById(id);
+        }
+
+        public List<ProductIngredient> GetByProductId(int id)
+        {
+            return _productIngredientDal.GetByProductId(id);
         }
 
         public void Update(ProductIngredient entity)

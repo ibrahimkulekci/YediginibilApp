@@ -38,6 +38,12 @@ namespace Yediginibil.WebUI
             services.AddScoped<IProductIngredientDal, EfCoreProductIngredientDal>();
             services.AddScoped<IProductIngredientService, ProductIngredientManager>();
 
+            services.AddScoped<IPageDal, EfCorePageDal>();
+            services.AddScoped<IPageService, PageManager>();
+
+            services.AddScoped<IBlogDal, EfCoreBlogDal>();
+            services.AddScoped<IBlogService, BlogManager>();
+
 
             services.AddControllersWithViews();
         }

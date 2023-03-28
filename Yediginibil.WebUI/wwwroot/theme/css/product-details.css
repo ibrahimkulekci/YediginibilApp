@@ -334,7 +334,6 @@
   line-height: 12px;
   padding: 8px 10px;
   border-radius: 5px;
-  letter-spacing: 0.3px;
   text-transform: capitalize;
   color: var(--text);
   background: var(--chalk);

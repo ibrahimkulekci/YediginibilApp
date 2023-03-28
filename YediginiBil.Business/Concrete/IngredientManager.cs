@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YediginiBil.Business.Abstract;
+using YediginiBil.Business.Model;
+using YediginiBil.Business.Model.Ingredient;
 using YediginiBil.DataAccess.Abstract;
 using YediginiBil.Entities;
 
@@ -28,14 +30,29 @@ namespace YediginiBil.Business.Concrete
             _ingredientDal.Delete(entity);
         }
 
-        public List<Ingredient> GetAll()
+        public List<Ingredient> GetAll(int page, int pageSize)
         {
-            return _ingredientDal.GetAll().ToList();
+            return _ingredientDal.GetAll(page, pageSize).ToList();
+        }
+
+        public IEnumerable<Ingredient> GetAll()
+        {
+            return _ingredientDal.GetAll();
+        }
+
+        public int GetAllCount()
+        {
+            return _ingredientDal.GetAllCount();
         }
 
         public Ingredient GetById(int id)
         {
             return _ingredientDal.GetById(id);
+        }
+
+        public IEnumerable<Ingredient> GetByProductId(int id)
+        {
+            return _ingredientDal.GetByProdcutId(id);
         }
 
         public void Update(Ingredient entity)

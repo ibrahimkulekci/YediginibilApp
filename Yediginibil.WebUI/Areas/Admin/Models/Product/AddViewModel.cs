@@ -21,18 +21,21 @@ namespace Yediginibil.WebUI.Areas.Admin.Models.Product
         public string SeoTitle { get; set; }
         public string SeoUrl { get; set; }
         public string SeoDescription { get; set; }
+
         public int BrandId { get; set; }
+        public string[] IngredientList { get; set; }
 
 
-        public DateTime CreatingDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-
-        public List<ProductImages> ProductImages { get; set; }
-        public List<Brand> Brands { get; set; }
-        public List<ProductIngredient> ProductIngredients { get; set; }
-        public string[] IngredientsList { get; set; }
-        public List<SelectListItem> SelectIngredients { get; set; }
+        public DateTime? CreatingDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
 
         public IFormFile File { get; set; }
+
+        public List<SelectListItem> BrandSelectList { get; set; }
+        public List<SelectListItem> IngredientSelectList { get; set; }
+
+        //
+        public List<SelectListItem> drpIngredients { get; set; }
+        public int[] IngredientsIds { get; set; }
     }
 }

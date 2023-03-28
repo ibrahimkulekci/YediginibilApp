@@ -11,6 +11,8 @@ namespace YediginiBil.DataAccess.Abstract
     public interface IProductDal:IRepository<Product>
     {
         //product özel methotları ekle.
+        List<Product> GetAll(int page, int pageSize);
+        int GetAllCount();
 
     }
 }

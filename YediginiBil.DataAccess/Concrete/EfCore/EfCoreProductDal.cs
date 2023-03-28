@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -9,8 +10,26 @@ using YediginiBil.Entities;
 
 namespace YediginiBil.DataAccess.Concrete.EfCore
 {
-    public class EfCoreProductDal : EfCoreGenericRepository<Product,YediginibilDbContext>, IProductDal
+    public class EfCoreProductDal : EfCoreGenericRepository<Product, YediginibilDbContext>, IProductDal
     {
-        
+        public List<Product> GetAll(int page, int pageSize)
+        {
+            using (var context=new YediginibilDbContext())
+            {
+                var products = context.Products.AsQueryable();
+
+                return products.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }
+        }
+
+        public int GetAllCount()
+        {
+            using (var context = new YediginibilDbContext())
+            {
+                var products = context.Products.AsQueryable();
+
+                return products.Count();
+            }
+        }
     }
 }

@@ -28,9 +28,19 @@ namespace YediginiBil.Business.Concrete
             _brandDal.Delete(entity);
         }
 
-        public List<Brand> GetAll()
+        public List<Brand> GetAll(int page, int pageSize)
         {
-            return _brandDal.GetAll().ToList();
+            return _brandDal.GetAll(page, pageSize).ToList();
+        }
+
+        public IEnumerable<Brand> GetAll()
+        {
+            return _brandDal.GetAll();
+        }
+
+        public int GetAllCount()
+        {
+            return _brandDal.GetAllCount();
         }
 
         public Brand GetById(int id)

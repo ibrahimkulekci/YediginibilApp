@@ -28,7 +28,7 @@ namespace YediginiBil.Entities
         public DateTime? CreatingDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        public List<ProductImages> ProductImages { get; set; }
-        public List<ProductIngredient> ProductIngredients { get; set; }
+
+        public virtual ICollection<ProductIngredient> ProductIngredients { get; set; }
     }
 }

@@ -1,9 +1,10 @@
-﻿
+﻿@model Yediginibil.WebUI.Areas.Admin.Models.Product.ListViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 @section Styles{
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
 }
 
 
@@ -18,85 +19,37 @@
             <!-- /.box-title -->
             <div class="card-content">
                 <table class="table table-bordered">
-                    <caption>Optional table caption.</caption>
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Ürün Adı</th>
-                            <th>Ürün Kategorisi</th>
-                            <th>Ürün Ekleme Tarihi</th>
-                            <th>İşlemler</th>
+                            <th>Ekleme Tarihi</th>
+                            <th>Yayında mı?</th>
+                            <th style="width:200px;">İşlemler</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @if (Model.Products.Count < 0)
+                        {
+
+                        }
+                        else
+                        {
+                            foreach (var item in Model.Products)
+                            {
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Deneme Ürün1</td>
-                            <td>Kategor1</td>
-                            <td>08.03.2023</td>
+                            <td>@item.Title</td>
+                            <td>@(((DateTime)item.CreatingDate).ToString("dd.MM.yyyy"))</td>
+                            <td>@Html.Raw(item.Status == true ? "<span class='text-success'>Yayında</span>" : "<span class='text-danger'>Yayında Değil</span>")</td>
                             <td>
-                                <a class="btn btn-primary btn-sm waves-effect waves-light" href="#">Görüntüle</a>
-                                <a class="btn btn-success btn-sm waves-effect waves-light" href="#">Düzenle</a>
-                                <a class="btn btn-warning btn-sm waves-effect waves-light" href="#">Sil</a>
+                                <a href="~/Admin/Product/Edit/@item.Id">Düzenle</a> - 
+                                <a href="~/Product/Details/@item.Id/@item.SeoUrl" target="_blank">Görüntüle</a>
                             </td>
                         </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Deneme Ürün1</td>
-                            <td>Kategor1</td>
-                            <td>08.03.2023</td>
-                            <td>
-                                <a class="btn btn-primary btn-sm waves-effect waves-light" href="#">Görüntüle</a>
-                                <a class="btn btn-success btn-sm waves-effect waves-light" href="#">Düzenle</a>
-                                <a class="btn btn-warning btn-sm waves-effect waves-light" href="#">Sil</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Deneme Ürün1</td>
-                            <td>Kategor1</td>
-                            <td>08.03.2023</td>
-                            <td>
-                                <a class="btn btn-primary btn-sm waves-effect waves-light" href="#">Görüntüle</a>
-                                <a class="btn btn-success btn-sm waves-effect waves-light" href="#">Düzenle</a>
-                                <a class="btn btn-warning btn-sm waves-effect waves-light" href="#">Sil</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Deneme Ürün1</td>
-                            <td>Kategor1</td>
-                            <td>08.03.2023</td>
-                            <td>
-                                <a class="btn btn-primary btn-sm waves-effect waves-light" href="#">Görüntüle</a>
-                                <a class="btn btn-success btn-sm waves-effect waves-light" href="#">Düzenle</a>
-                                <a class="btn btn-warning btn-sm waves-effect waves-light" href="#">Sil</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Deneme Ürün1</td>
-                            <td>Kategor1</td>
-                            <td>08.03.2023</td>
-                            <td>
-                                <a class="btn btn-primary btn-sm waves-effect waves-light" href="#">Görüntüle</a>
-                                <a class="btn btn-success btn-sm waves-effect waves-light" href="#">Düzenle</a>
-                                <a class="btn btn-warning btn-sm waves-effect waves-light" href="#">Sil</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Deneme Ürün1</td>
-                            <td>Kategor1</td>
-                            <td>08.03.2023</td>
-                            <td>
-                                <a class="btn btn-primary btn-sm waves-effect waves-light" href="#">Görüntüle</a>
-                                <a class="btn btn-success btn-sm waves-effect waves-light" href="#">Düzenle</a>
-                                <a class="btn btn-warning btn-sm waves-effect waves-light" href="#">Sil</a>
-                            </td>
-                        </tr>
+                            }
+                        }
                     </tbody>
                 </table>
+                <div page-model="@Model.PageInfo"></div>
             </div>
         </div>
         <!-- /.box-content -->
@@ -105,5 +58,24 @@
 </div>
 
 @section Scripts{
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "SuccessAdd")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("Ürün Başarıyla Eklendi!");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "SuccessDelete")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("Ürün Başarıyla Silindi!");
+                });
+            </script>
+        }
+    }
 
 }

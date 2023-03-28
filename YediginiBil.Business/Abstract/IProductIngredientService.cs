@@ -12,8 +12,11 @@ namespace YediginiBil.Business.Abstract
         ProductIngredient GetById(int id);
         List<ProductIngredient> GetAll();
 
+        List<ProductIngredient> GetByProductId(int id);
+
         void Create(ProductIngredient entity);
         void Update(ProductIngredient entity);
         void Delete(ProductIngredient entity);
+
     }
 }

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YediginiBil.DataAccess\YediginiBil.DataAccess.csproj" />
     <ProjectReference Include="..\YediginiBil.Entities\YediginiBil.Entities.csproj" />
   </ItemGroup>
