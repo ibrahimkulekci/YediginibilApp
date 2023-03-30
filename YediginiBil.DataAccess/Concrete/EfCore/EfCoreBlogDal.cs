@@ -16,7 +16,7 @@ namespace YediginiBil.DataAccess.Concrete.EfCore
 
             using (var context = new YediginibilDbContext())
             {
-                var blogs = context.Blogs.AsQueryable();
+                var blogs = context.Blogs.AsQueryable().OrderByDescending(x=>x.Id).ToList();
 
                 return blogs.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }

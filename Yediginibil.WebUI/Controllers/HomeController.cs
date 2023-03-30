@@ -13,16 +13,22 @@ namespace Yediginibil.WebUI.Controllers
     public class HomeController : Controller
     {
         private IProductService _productService;
+        private IBlogService _blogService;
 
-        public HomeController(IProductService productService)
+        public HomeController(IBlogService blogService,IProductService productService)
         {
+            _blogService = blogService;
             _productService = productService;
         }
 
-        public IActionResult Index(int page =1)
+        public IActionResult Index()
         {
-            const int pageSize = 10;
-            return View(_productService.GetAll(page, pageSize).OrderByDescending(x=>x.Id).ToList());
+            Yediginibil.WebUI.Models.Home.ListViewModel model = new Models.Home.ListViewModel();
+
+            model.Products = _productService.GetAll(1, 10).OrderByDescending(x => x.Id).ToList();
+            model.Blogs = _blogService.GetAll(1, 3).OrderByDescending(x => x.Id).ToList();
+
+            return View(model);
         }
     }
 }

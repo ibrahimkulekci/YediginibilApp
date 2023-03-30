@@ -66,10 +66,10 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             {
                 var extension = Path.GetExtension(model.File.FileName);
                 var newImageName = Guid.NewGuid() + "-" + SeoHelper.ConvertToValidUrl(model.Title) + extension;
-                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Product/", newImageName);
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/product/", newImageName);
                 var stream = new FileStream(location, FileMode.Create);
                 model.File.CopyTo(stream);
-                model.ImageUrl = "img/Product/" + newImageName;
+                model.ImageUrl = "img/product/" + newImageName;
             }
             else
             {
@@ -100,17 +100,19 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
 
             int productId = record.Id;
 
-            YediginiBil.Entities.ProductIngredient recordPI = new YediginiBil.Entities.ProductIngredient();
+            ProductIngredient recordPI = new ProductIngredient();
 
-            for (int i = 0; i < model.IngredientList.Count(); i++)
+            for (int i = 0; i < model.IngredientsIds.Count(); i++)
             {
                 recordPI.Id = 0;
-                recordPI.IngredientId = Convert.ToInt32(model.IngredientList[i].ToString());
+                recordPI.IngredientId = Convert.ToInt32(model.IngredientsIds[i].ToString());
                 recordPI.ProductId = productId;
 
                 _productIngredientService.Create(recordPI);
             }
-            TempData["message"] = "Success";
+
+            TempData["Message"] = "Success";
+            TempData["Message_Detail"] = "Ürün başarıyla eklendi.";
             return Redirect("~/Admin/Product");
         }
         [HttpGet]
@@ -216,7 +218,57 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             TempData["Message_Detail"] = "Ürün başarıyla güncellendi.";
             return Redirect("~/Admin/Product/Edit/" + model.Id);
         }
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            List<ProductIngredient> productIngredients = new List<ProductIngredient>();
+            Product product = new Product();
+            AddViewModel model = new AddViewModel();
 
+
+            product = context.Products.Include("ProductIngredients").FirstOrDefault(x => x.Id == id);
+            product.ProductIngredients.ToList().ForEach(result => productIngredients.Add(result));
+            context.ProductIngredient.RemoveRange(productIngredients);
+            context.SaveChanges();
+
+
+            YediginiBil.Entities.Product record = _productService.GetById(id);
+            if (record == null)
+            {
+                TempData["Message"] = "Error";
+                TempData["Message_Detail"] = "Ürün bulunamadı.";
+                return Redirect("~/Admin/Product");
+            }
+
+            product.Barcode = record.Barcode;
+            product.BrandId = record.BrandId;
+            product.CreatingDate = record.CreatingDate;
+            product.Id = record.Id;
+            product.ImageUrl = record.ImageUrl;
+            product.LongDescription = record.LongDescription;
+            product.SeoDescription = record.SeoDescription;
+            product.SeoTitle = record.SeoTitle;
+            product.SeoUrl = record.SeoUrl;
+            product.ShortDescription = record.ShortDescription;
+            product.Status = record.Status;
+            product.Title = record.Title;
+            product.UpdatedDate = record.UpdatedDate;
+
+            _productService.Delete(product);
+
+            if (record.ImageUrl != "img/nullimage.jpg")
+            {
+                string ExitingFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/", product.ImageUrl);
+                System.IO.File.Delete(ExitingFile);
+            }
+
+
+
+
+            TempData["Message"] = "Success";
+            TempData["Message_Detail"] = "Ürün silindi.";
+            return Redirect("~/Admin/Product/");
+        }
 
 
 

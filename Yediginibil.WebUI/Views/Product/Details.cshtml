@@ -30,7 +30,6 @@
             </div>
             <div class="col-lg-6">
                 <div class="details-content">
-                    @*<h3 class="details-name"><a href="#">@Model.Product.Title</a></h3>*@
                     <h3 class="details-name"><a href="#">@Model.Title</a></h3>
                     <div class="details-rating">
                         <i class="active icofont-star"></i>
@@ -40,7 +39,6 @@
                         <i class="icofont-star"></i>
                         <a href="#">(3 reviews)</a>
                     </div>
-                    @*<p class="details-desc">@Model.Product.ShortDescription</p>*@
                     <p class="details-desc">@Model.ShortDescription</p>
                     <div class="details-list-group">
                         <label class="details-list-title">İçindekiler:</label>
@@ -76,7 +74,18 @@
                             <li class="product-nav-prev" style="display: table-cell;">
                                 <a href="#">
                                     <div class="intro-icon">
-                                        <i class="fas fa-leaf" style="width: 85px;height: 85px;font-size: 40px;line-height: 75px;"></i><br>
+                                        <img src="~/img/allergens/nogluten.png" style="width: 85px;height: 85px;font-size: 40px;line-height: 75px;" />
+                                        Gluten İçermez
+                                    </div>
+                                    <span class="product-nav-popup">
+                                        <small>Ürün bileşenleri gluten içermez. (*) Çölyak rahatsızlığınız varsa etiket kontrolü yapmadan tüketmeyin, ürün içerikleri güncellenebiliyor.</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="product-nav-prev" style="display: table-cell;">
+                                <a href="#">
+                                    <div class="intro-icon">
+                                        <img src="~/img/allergens/nogluten2.png" style="width: 85px;height: 85px;font-size: 40px;line-height: 75px;" />
                                         Gluten İçermez
                                     </div>
                                     <span class="product-nav-popup">

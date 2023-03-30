@@ -172,6 +172,12 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
 
             _pageService.Delete(record);
 
+            if (record.Image != "img/nullimage.jpg")
+            {
+                string ExitingFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/", record.Image);
+                System.IO.File.Delete(ExitingFile);
+            }
+
             TempData["Message"] = "Success";
             TempData["Message_Detail"] = "Sayfa silindi.";
             return Redirect("~/Admin/Page/");

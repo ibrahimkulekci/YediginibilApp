@@ -53,10 +53,10 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             {
                 var extension = Path.GetExtension(model.File.FileName);
                 var newImageName = Guid.NewGuid() + "-" + SeoHelper.ConvertToValidUrl(model.Title) + extension;
-                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Ingredient/", newImageName);
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/ingredient/", newImageName);
                 var stream = new FileStream(location, FileMode.Create);
                 model.File.CopyTo(stream);
-                model.Image = "img/Ingredient/" + newImageName;
+                model.Image = "img/ingredient/" + newImageName;
             }
             else
             {
@@ -126,10 +126,10 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             {
                 var extension = Path.GetExtension(model.File.FileName);
                 var newImageName = Guid.NewGuid() + "-" + SeoHelper.ConvertToValidUrl(model.Title) + extension;
-                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/Ingredient/", newImageName);
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/ingredient/", newImageName);
                 var stream = new FileStream(location, FileMode.Create);
                 model.File.CopyTo(stream);
-                model.Image = "img/Ingredient/" + newImageName;
+                model.Image = "img/ingredient/" + newImageName;
                 record.Image = model.Image;
             }
 
@@ -173,6 +173,12 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             model.UpdatedDate = record.UpdatedDate;
 
             _ingredientService.Delete(record);
+
+            if (record.Image != "img/nullimage.jpg")
+            {
+                string ExitingFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/", record.Image);
+                System.IO.File.Delete(ExitingFile);
+            }
 
             TempData["Message"] = "Success";
             TempData["Message_Detail"] = "Malzeme silindi.";

@@ -171,6 +171,12 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
 
             _brandService.Delete(record);
 
+            if (record.Image != "img/nullimage.jpg")
+            {
+                string ExitingFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/", record.Image);
+                System.IO.File.Delete(ExitingFile);
+            }
+
             TempData["Message"] = "Success";
             TempData["Message_Detail"] = "Marka silindi.";
             return Redirect("~/Admin/Brand/");

@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <label>Ürün İçindekileri</label>
-                        @Html.DropDownListFor(m => m.IngredientList, Model.IngredientSelectList, new { @class = "form-control select2_1", multiple = "true" })
+                        @Html.DropDownListFor(model => model.IngredientsIds, Model.IngredientSelectList, new { @class = "form-control select2_1", multiple = "true" })
                     </div>
                     <div class="form-group">
                         @Html.Label("Ürün Uzun Açıklaması")

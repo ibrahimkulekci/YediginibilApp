@@ -71,11 +71,11 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
 
             if (model.SeoTitle == null) { model.SeoTitle = model.Title; }
             if (model.SeoUrl == null) { model.SeoUrl = SeoHelper.ConvertToValidUrl(model.Title); }
-            if (model.SeoDescription == null) { model.SeoDescription = model.Description; }
+            if (model.SeoDescription == null) { model.SeoDescription = model.Description.Substring(0,150); }
 
             record.SeoTitle = model.SeoTitle;
             record.SeoUrl = model.SeoUrl;
-            record.SeoDescription = Regex.Replace(model.SeoDescription, "<.*?>", string.Empty);
+            record.SeoDescription = Regex.Replace(model.SeoDescription.Substring(0,150), "<.*?>", string.Empty);
             record.CreatingDate = DateTime.Parse(DateTime.Now.ToShortDateString());
             record.UpdatedDate = DateTime.Parse(DateTime.Now.ToShortDateString());
 
@@ -171,6 +171,12 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             model.UpdatedDate = record.UpdatedDate;
 
             _blogService.Delete(record);
+
+            if (record.Image != "img/nullimage.jpg")
+            {
+                string ExitingFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/", record.Image);
+                System.IO.File.Delete(ExitingFile);
+            }
 
             TempData["Message"] = "Success";
             TempData["Message_Detail"] = "Blog silindi.";

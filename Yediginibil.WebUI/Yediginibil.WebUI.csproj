@@ -28,6 +28,8 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="wwwroot\img\Ingredient\" />
     <Folder Include="wwwroot\img\brand\" />
+    <Folder Include="wwwroot\img\blog\" />
+    <Folder Include="wwwroot\img\page\" />
     <Folder Include="wwwroot\img\Product\" />
   </ItemGroup>
 

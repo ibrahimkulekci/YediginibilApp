@@ -45,7 +45,7 @@
                         @*@Html.DropDownListFor(model => model.IngredientList, new MultiSelectList(Model.selectListIngredientAll, "Value", "Text"), new { @class = "form-control select2_1" })*@
                         @*@Html.DropDownListFor(x => x.productIdByIngredientValues, Model.productIdByIngredientValues, new { @class = "form-control", multiple = "true" })*@
                         @*allIngredientValues
-                            productIdByIngredientValues*@
+            productIdByIngredientValues*@
 
                         @Html.ListBoxFor(model => model.IngredientsIds, new MultiSelectList(Model.drpIngredients, "Value", "Text"), new { @class = "form-control select2_1", multiple = "multiple" })
 
@@ -80,7 +80,10 @@
                         @Html.CheckBoxFor(m => m.Status)
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Ekle</button>
+                    <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Güncelle</button>
+                    <div class="pull-right">
+                        <a class="btn btn-danger btn-sm waves-effect waves-light float-right" href="~/Admin/Product/Delete/@Model.Id">Sil</a>
+                    </div>
                 </form>
             </div>
         </div>

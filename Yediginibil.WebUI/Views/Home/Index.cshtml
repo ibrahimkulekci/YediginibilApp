@@ -1,4 +1,4 @@
-﻿@model IEnumerable<YediginiBil.Entities.Product>
+﻿@model Yediginibil.WebUI.Models.Home.ListViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-            @foreach (var item in Model)
+            @foreach (var product in Model.Products)
             {
                 <div class="col">
                     <div class="product-card">
@@ -24,16 +24,16 @@
                             <div class="product-label">
                                 <label class="label-text sale">katkısız</label>
                             </div>
-                            <a class="product-image" href="~/Product/Details/@item.Id/@item.SeoUrl">
+                            <a class="product-image" href="~/Product/Details/@product.Id/@product.SeoUrl">
                                 @*<a class="product-image" asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" asp-route-seourl="@item.SeoUrl">*@
-                                <img src="~/@item.ImageUrl" alt="product">
+                                <img src="~/@product.ImageUrl" alt="product">
                             </a>
                         </div>
                         <div class="product-content">
                             <h6 class="product-name">
-                                <a href="~/Product/Details/@item.Id/@item.SeoUrl">@item.Title</a>
+                                <a href="~/Product/Details/@product.Id/@product.SeoUrl">@product.Title</a>
                             </h6>
-                            <a class="product-add" href="~/Product/Details/@item.Id/@item.SeoUrl">
+                            <a class="product-add" href="~/Product/Details/@product.Id/@product.SeoUrl">
                                 <span>ürünü incele</span>
                             </a>
                         </div>
@@ -71,64 +71,28 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="blog-slider slider-arrow">
-                    <div class="blog-card">
+                    @foreach (var blog in Model.Blogs)
+                    {
+                     <div class="blog-card">
                         <div class="blog-media">
-                            <a class="blog-img" href="#">
-                                <img src="~/theme/images/blog/01.jpg" alt="blog">
+                            <a class="blog-img" href="~/Blog/Details/@blog.Id/@blog.SeoUrl">
+                                <img src="~/@blog.Image" alt="@blog.SeoTitle" title="@blog.SeoTitle">
                             </a>
                         </div>
                         <div class="blog-content">
                             <h4 class="blog-title">
-                                <a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a>
+                                <a href="~/Blog/Details/@blog.Id/@blog.SeoUrl">@blog.Title</a>
                             </h4>
                             <p class="blog-desc">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ...
+                                @blog.SeoDescription
                             </p>
-                            <a class="blog-btn" href="#">
+                            <a class="blog-btn" href="~/Blog/Details/@blog.Id/@blog.SeoUrl">
                                 <span>devamını oku</span>
                                 <i class="icofont-arrow-right"></i>
                             </a>
                         </div>
-                    </div>
-                    <div class="blog-card">
-                        <div class="blog-media">
-                            <a class="blog-img" href="#">
-                                <img src="~/theme/images/blog/01.jpg" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-content">
-                            <h4 class="blog-title">
-                                <a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a>
-                            </h4>
-                            <p class="blog-desc">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ...
-                            </p>
-                            <a class="blog-btn" href="#">
-                                <span>devamını oku</span>
-                                <i class="icofont-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="blog-card">
-                        <div class="blog-media">
-                            <a class="blog-img" href="#">
-                                <img src="~/theme/images/blog/01.jpg" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-content">
-                            <h4 class="blog-title">
-                                <a href="blog-details.html">Voluptate blanditiis provident Lorem ipsum dolor sit amet</a>
-                            </h4>
-                            <p class="blog-desc">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias autem recusandae deleniti nam dignissimos sequi ...
-                            </p>
-                            <a class="blog-btn" href="#">
-                                <span>devamını oku</span>
-                                <i class="icofont-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-
+                     </div>
+                    }
                 </div>
             </div>
         </div>

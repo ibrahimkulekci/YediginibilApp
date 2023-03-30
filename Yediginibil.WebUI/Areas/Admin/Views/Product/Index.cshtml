@@ -1,6 +1,6 @@
 ﻿@model Yediginibil.WebUI.Areas.Admin.Models.Product.ListViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ürünler";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 @section Styles{
@@ -11,7 +11,7 @@
 <div class="row small-spacing">
     <div class="col-xs-12">
         <div class="box-content">
-            <h4 class="box-title">Ürünler</h4>
+            <h4 class="box-title">@ViewData["Title"]</h4>
             <div class="dropdown js__drop_down">
                 <a href="~/Admin/Product/Add/" class="btn btn-primary btn-sm waves-effect waves-light">Yeni Ürün Ekle</a>
                 <!-- /.sub-menu -->
@@ -36,15 +36,15 @@
                         {
                             foreach (var item in Model.Products)
                             {
-                        <tr>
-                            <td>@item.Title</td>
-                            <td>@(((DateTime)item.CreatingDate).ToString("dd.MM.yyyy"))</td>
-                            <td>@Html.Raw(item.Status == true ? "<span class='text-success'>Yayında</span>" : "<span class='text-danger'>Yayında Değil</span>")</td>
-                            <td>
-                                <a href="~/Admin/Product/Edit/@item.Id">Düzenle</a> - 
-                                <a href="~/Product/Details/@item.Id/@item.SeoUrl" target="_blank">Görüntüle</a>
-                            </td>
-                        </tr>
+                                <tr>
+                                    <td>@item.Title</td>
+                                    <td>@(((DateTime)item.CreatingDate).ToString("dd.MM.yyyy"))</td>
+                                    <td>@Html.Raw(item.Status == true ? "<span class='text-success'>Yayında</span>" : "<span class='text-danger'>Yayında Değil</span>")</td>
+                                    <td>
+                                        <a href="~/Admin/Product/Edit/@item.Id">Düzenle</a> -
+                                        <a href="~/Product/Details/@item.Id/@item.SeoUrl" target="_blank">Görüntüle</a>
+                                    </td>
+                                </tr>
                             }
                         }
                     </tbody>
@@ -60,19 +60,19 @@
 @section Scripts{
     <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
 
-    @{ if ((string)TempData["Message"] == "SuccessAdd")
+    @{ if ((string)TempData["Message"] == "Success")
         {
             <script>
                 $(document).ready(function onDocumentReady() {
-                    toastr.success("Ürün Başarıyla Eklendi!");
+                    toastr.success("@TempData["Message_Detail"]");
                 });
             </script>
         }
-        else if ((string)TempData["Message"] == "SuccessDelete")
+        else if ((string)TempData["Message"] == "Error")
         {
             <script>
                 $(document).ready(function onDocumentReady() {
-                    toastr.success("Ürün Başarıyla Silindi!");
+                    toastr.error("@TempData["Message_Detail"]");
                 });
             </script>
         }
