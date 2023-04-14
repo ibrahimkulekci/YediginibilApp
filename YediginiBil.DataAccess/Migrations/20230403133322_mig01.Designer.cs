@@ -10,8 +10,8 @@ using YediginiBil.DataAccess.Concrete.EfCore;
 namespace YediginiBil.DataAccess.Migrations
 {
     [DbContext(typeof(YediginibilDbContext))]
-    [Migration("20230325191546_mig_add_page_table")]
-    partial class mig_add_page_table
+    [Migration("20230403133322_mig01")]
+    partial class mig01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,84 @@ namespace YediginiBil.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("YediginiBil.Entities.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("YediginiBil.Entities.BlogCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlogCategories");
+                });
 
             modelBuilder.Entity("YediginiBil.Entities.Brand", b =>
                 {
@@ -229,13 +307,13 @@ namespace YediginiBil.DataAccess.Migrations
             modelBuilder.Entity("YediginiBil.Entities.ProductIngredient", b =>
                 {
                     b.HasOne("YediginiBil.Entities.Ingredient", "Ingredient")
-                        .WithMany()
+                        .WithMany("ProductIngredients")
                         .HasForeignKey("IngredientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("YediginiBil.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductIngredients")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -243,6 +321,16 @@ namespace YediginiBil.DataAccess.Migrations
                     b.Navigation("Ingredient");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("YediginiBil.Entities.Ingredient", b =>
+                {
+                    b.Navigation("ProductIngredients");
+                });
+
+            modelBuilder.Entity("YediginiBil.Entities.Product", b =>
+                {
+                    b.Navigation("ProductIngredients");
                 });
 #pragma warning restore 612, 618
         }

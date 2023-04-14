@@ -1,6 +1,6 @@
-﻿@model Yediginibil.WebUI.Areas.Admin.Models.Blog.AddViewModel
+﻿@model Yediginibil.WebUI.Areas.Admin.Models.Blog.CategoryAddViewModel
 @{
-    ViewData["Title"] = "Yeni Ekle - Bloglar";
+    ViewData["Title"] = "Blog Kategorisi Ekle";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 @section Styles{
@@ -29,16 +29,8 @@
                         @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
                     </div>
                     <div class="form-group">
-                        <label>Kategori</label>
-                        @Html.DropDownListFor(m => m.CategoryId, Model.BlogCategorySelectList, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
                         @Html.Label("Açıklama")
                         @Html.TextAreaFor(x => x.Description, new { @id = "tinymce", @placeholder = "Ürün açıklamasını giriniz" })
-                    </div>
-                    <div class="form-group">
-                        <label>Görsel</label>
-                        <input type="file" id="input-file-now-custom-1" class="dropify" name="File" />
                     </div>
                     <br />
                     <div class="form-group">

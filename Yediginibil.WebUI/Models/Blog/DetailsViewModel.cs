@@ -17,5 +17,13 @@ namespace Yediginibil.WebUI.Models.Blog
         public string SeoDescription { get; set; }
         public DateTime? CreatingDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public YediginiBil.Entities.BlogCategory Category { get; set; }
+
+        public List<YediginiBil.Entities.Comment> Comments { get; set; }
+        public int CommentCount { get; set; }
+
     }
 }

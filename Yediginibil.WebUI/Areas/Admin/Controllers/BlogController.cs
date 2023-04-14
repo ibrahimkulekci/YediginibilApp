@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,11 +16,13 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
     [Area("Admin")]
     public class BlogController : Controller
     {
-        private IBlogService _blogService;
+        private readonly IBlogService _blogService;
+        private readonly IBlogCategoryService _blogCategoryService;
 
-        public BlogController(IBlogService blogService)
+        public BlogController(IBlogService blogService, IBlogCategoryService blogCategoryService)
         {
             _blogService = blogService;
+            _blogCategoryService = blogCategoryService;
         }
 
         [HttpGet]
@@ -41,7 +44,9 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
         public IActionResult Add()
         {
             AddViewModel model = new AddViewModel();
+            model.BlogCategorySelectList = GetBlogCategorySelectList();
             model.Status = true;
+
 
             return View(model);
         }
@@ -65,6 +70,7 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             YediginiBil.Entities.Blog record = new YediginiBil.Entities.Blog();
 
             record.Title = model.Title;
+            record.CategoryId = model.CategoryId;
             record.Description = model.Description;
             record.Image = model.Image;
             record.Status = model.Status;
@@ -88,6 +94,7 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             AddViewModel model = new AddViewModel();
+            model.BlogCategorySelectList = GetBlogCategorySelectList();
 
             YediginiBil.Entities.Blog record = _blogService.GetById(id);
             if (record == null)
@@ -104,6 +111,7 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             model.SeoTitle = record.SeoTitle;
             model.SeoUrl = record.SeoUrl;
             model.Title = record.Title;
+            model.CategoryId = record.CategoryId;
             model.Status = record.Status;
             model.CreatingDate = record.CreatingDate;
             model.UpdatedDate = record.UpdatedDate;
@@ -133,6 +141,7 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             }
 
             record.Title = model.Title;
+            record.CategoryId = model.CategoryId;
             record.Description = model.Description;
             record.Status = model.Status;
 
@@ -166,6 +175,7 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             model.SeoTitle = record.SeoTitle;
             model.SeoUrl = record.SeoUrl;
             model.Title = record.Title;
+            model.CategoryId = record.CategoryId;
             model.Status = record.Status;
             model.CreatingDate = record.CreatingDate;
             model.UpdatedDate = record.UpdatedDate;
@@ -181,6 +191,62 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             TempData["Message"] = "Success";
             TempData["Message_Detail"] = "Blog silindi.";
             return Redirect("~/Admin/Blog/");
+        }
+        [HttpGet]
+        public IActionResult CategoryList(int page = 1)
+        {
+            const int pageSize = 20;
+            return View(new CategoryListViewModel()
+            {
+                PageInfo = new PageInfo()
+                {
+                    TotalItems = _blogCategoryService.GetAllCount(),
+                    CurrentPage = page,
+                    ItemsPerPage = pageSize
+                },
+                BlogCategories = _blogCategoryService.GetAll(page, pageSize).OrderByDescending(x => x.Id).ToList()
+            });
+        }
+
+        [HttpGet]
+        public IActionResult CategoryAdd()
+        {
+            CategoryAddViewModel model = new CategoryAddViewModel();
+            model.Status = true;
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult CategoryAdd(CategoryAddViewModel model)
+        {
+            if (model.SeoTitle == null) { model.SeoTitle = model.Title; }
+            if (model.SeoUrl == null) { model.SeoUrl = SeoHelper.ConvertToValidUrl(model.Title); }
+
+            model.CreatingDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+            model.UpdatedDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+
+            _blogCategoryService.Create(model);
+
+            if (model.Id > 0)
+            {
+                TempData["Message"] = "Success";
+                TempData["Message_Detail"] = "Kategori başarıyla eklendi.";
+                return Redirect("~/Admin/Blog/CategoryList");
+            }
+            else
+            {
+                TempData["Message"] = "Error";
+                TempData["Message_Detail"] = "Kategori eklenemedi.";
+                return View(model);
+            }
+
+        }
+
+
+
+        [NonAction]
+        private List<SelectListItem> GetBlogCategorySelectList()
+        {
+            return _blogCategoryService.GetAll().Select(r => new SelectListItem() { Value = r.Id.ToString(), Text = string.Format("{0}", r.Title) }).ToList();
         }
 
 

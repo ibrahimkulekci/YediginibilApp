@@ -1,6 +1,6 @@
-﻿@model Yediginibil.WebUI.Areas.Admin.Models.Blog.AddViewModel
+﻿@model Yediginibil.WebUI.Areas.Admin.Models.Badge.AddViewModel
 @{
-    ViewData["Title"] = "Yeni Ekle - Bloglar";
+    ViewData["Title"] = "Düzenle - Rozetler";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 @section Styles{
@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="~/atheme/assets/plugin/select2/css/select2.min.css">
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
 }
 
 
@@ -29,36 +30,26 @@
                         @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
                     </div>
                     <div class="form-group">
-                        <label>Kategori</label>
-                        @Html.DropDownListFor(m => m.CategoryId, Model.BlogCategorySelectList, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
                         @Html.Label("Açıklama")
                         @Html.TextAreaFor(x => x.Description, new { @id = "tinymce", @placeholder = "Ürün açıklamasını giriniz" })
                     </div>
                     <div class="form-group">
                         <label>Görsel</label>
+                        <br />
+                        <img src="~/@Model.Image" style="width:180px; height:auto;" />
+                        <br /><br />
                         <input type="file" id="input-file-now-custom-1" class="dropify" name="File" />
                     </div>
                     <br />
-                    <div class="form-group">
-                        @Html.Label("Seo Başlık")
-                        @Html.TextBoxFor(x => x.SeoTitle, new { @class = "form-control", @placeholder = "Ürün seo adını giriniz." })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Seo Url")
-                        @Html.TextBoxFor(x => x.SeoUrl, new { @class = "form-control", @placeholder = "Ürün seo url giriniz." })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Seo Açıklaması")
-                        @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control", @id = "inp-type-5", @placeholder = "Ürün seo kısa açıklamasını giriniz" })
-                    </div>
                     <div class="form-group">
                         @Html.Label("Yayınlansın mı?")
                         @Html.CheckBoxFor(m => m.Status)
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Ekle</button>
+                    <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Güncelle</button>
+                    <div class="pull-right">
+                        <a class="btn btn-danger btn-sm waves-effect waves-light float-right" href="~/Admin/Badge/Delete/@Model.Id">Sil</a>
+                    </div>
                 </form>
             </div>
         </div>
@@ -133,4 +124,24 @@
 
     <!-- Demo Scripts -->
     <script src="~/atheme/assets/scripts/form.demo.min.js"></script>
+
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
 }

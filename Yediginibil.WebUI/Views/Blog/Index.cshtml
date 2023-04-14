@@ -1,0 +1,111 @@
+﻿@model Yediginibil.WebUI.Models.Blog.ListViewModel
+@{
+    ViewData["Title"] = "Blog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/theme/css/blog-details.css">
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
+}
+
+<section class="inner-section blog-grid" style="margin-top: 25px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="row">
+                    @foreach (var item in Model.Blogs)
+                    {
+                        <div class="col-md-6 col-lg-6">
+                            <div class="blog-card">
+                                <div class="blog-media">
+                                    <a class="blog-img" href="~/Blog/Details/@item.Id/@item.SeoUrl">
+                                        <img src="~/@item.Image" alt="@item.Title">
+                                    </a>
+                                </div>
+                                <div class="blog-content">
+                                    <ul class="blog-meta">
+                                        <li>
+                                            <i class="fas fa-user"></i>
+                                            <span>Yediğini Bil</span>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>@(((DateTime)item.CreatingDate).ToString("dd.MM.yyyy"))</span>
+                                        </li>
+                                    </ul>
+                                    <h4 class="blog-title">
+                                        <a href="~/Blog/Details/@item.Id/@item.SeoUrl">@item.Title</a>
+                                    </h4>
+                                    <p class="blog-desc"></p>
+                                    <a class="blog-btn" href="~/Blog/Details/@item.Id/@item.SeoUrl">
+                                        <span>Devamını Oku..</span>
+                                        <i class="icofont-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="bottom-paginate">
+                            <p class="page-info">Showing 12 of 60 Results</p>
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#">
+                                        <i class="fas fa-long-arrow-alt-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">...</li>
+                                <li class="page-item"><a class="page-link" href="#">60</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">
+                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-lg-4">
+                <div class="blog-widget">
+                    @await Component.InvokeAsync("BlogSearch")
+                </div>
+                <div class="blog-widget">
+                    @await Component.InvokeAsync("BlogPopular")
+                </div>
+                <div class="blog-widget">
+                    @await Component.InvokeAsync("BlogCategories")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <link rel="stylesheet" href="~/theme/css/blog-details.css">
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
+}

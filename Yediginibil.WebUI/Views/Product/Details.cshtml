@@ -7,6 +7,7 @@
 @section Styles{
 
     <link rel="stylesheet" href="~/theme/css/product-details.css">
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
 }
 
 <!--=====================================
@@ -32,12 +33,18 @@
                 <div class="details-content">
                     <h3 class="details-name"><a href="#">@Model.Title</a></h3>
                     <div class="details-rating">
-                        <i class="active icofont-star"></i>
-                        <i class="active icofont-star"></i>
-                        <i class="active icofont-star"></i>
-                        <i class="active icofont-star"></i>
-                        <i class="icofont-star"></i>
-                        <a href="#">(3 reviews)</a>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            if (i < Model.CommentStarAvg)
+                            {
+                                <i class="active icofont-star"></i>
+                            }
+                            else
+                            {
+                                <i class="icofont-star"></i>
+                            }
+                        }
+                        <a href="#comment_list">(@Model.CommentCount Yorum)</a>
                     </div>
                     <p class="details-desc">@Model.ShortDescription</p>
                     <div class="details-list-group">
@@ -50,7 +57,7 @@
                         </ul>
                     </div>
                     <div class="details-list-group">
-                        <label class="details-list-title">Share:</label>
+                        <label class="details-list-title">Paylaş:</label>
                         <ul class="details-share-list">
                             <li><a href="#" class="icofont-facebook" title="Facebook"></a></li>
                             <li><a href="#" class="icofont-twitter" title="Twitter"></a></li>
@@ -179,123 +186,83 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="product-details-frame">
-                    <h3 class="frame-title">Yorumlar (2)</h3>
+                <div class="product-details-frame" id="comment_list">
+                    <h3 class="frame-title">Yorumlar (@Model.CommentCount)</h3>
                     <ul class="review-list">
-                        <li class="review-item">
-                            <div class="review-media">
-                                <a class="review-avatar" href="#">
-                                    <img src="~/theme/images/avatar/01.jpg" alt="review">
-                                </a>
-                                <h5 class="review-meta">
-                                    <a href="#">miron mahmud</a>
-                                    <span>June 02, 2020</span>
-                                </h5>
-                            </div>
-                            <ul class="review-rating">
-                                <li class="icofont-ui-rating"></li>
-                                <li class="icofont-ui-rating"></li>
-                                <li class="icofont-ui-rating"></li>
-                                <li class="icofont-ui-rating"></li>
-                                <li class="icofont-ui-rate-blank"></li>
-                            </ul>
-                            <p class="review-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                            <form class="review-reply">
-                                <input type="text" placeholder="reply your thoughts">
-                                <button><i class="icofont-reply"></i>reply</button>
-                            </form>
-                            <ul class="review-reply-list">
-                                <li class="review-reply-item">
-                                    <div class="review-media">
-                                        <a class="review-avatar" href="#">
-                                            <img src="~/theme/images/avatar/02.jpg" alt="review">
-                                        </a>
-                                        <h5 class="review-meta">
-                                            <a href="#">labonno khan</a>
-                                            <span><b>author -</b> June 02, 2020</span>
-                                        </h5>
-                                    </div>
-                                    <p class="review-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                                    <form class="review-reply">
-                                        <input type="text" placeholder="reply your thoughts">
-                                        <button><i class="icofont-reply"></i>reply</button>
-                                    </form>
-                                </li>
-                                <li class="review-reply-item">
-                                    <div class="review-media">
-                                        <a class="review-avatar" href="#">
-                                            <img src="~/theme/images/avatar/03.jpg" alt="review">
-                                        </a>
-                                        <h5 class="review-meta">
-                                            <a href="#">tahmina bonny</a>
-                                            <span>June 02, 2020</span>
-                                        </h5>
-                                    </div>
-                                    <p class="review-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                                    <form class="review-reply">
-                                        <input type="text" placeholder="reply your thoughts">
-                                        <button><i class="icofont-reply"></i>reply</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="review-item">
-                            <div class="review-media">
-                                <a class="review-avatar" href="#">
-                                    <img src="~/theme/images/avatar/04.jpg" alt="review">
-                                </a>
-                                <h5 class="review-meta">
-                                    <a href="#">shipu shikdar</a>
-                                    <span>June 02, 2020</span>
-                                </h5>
-                            </div>
-                            <ul class="review-rating">
-                                <li class="icofont-ui-rating"></li>
-                                <li class="icofont-ui-rating"></li>
-                                <li class="icofont-ui-rating"></li>
-                                <li class="icofont-ui-rating"></li>
-                                <li class="icofont-ui-rate-blank"></li>
-                            </ul>
-                            <p class="review-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                            <form class="review-reply">
-                                <input type="text" placeholder="reply your thoughts">
-                                <button><i class="icofont-reply"></i>reply</button>
-                            </form>
-                        </li>
+                        @if (Model.CommentCount <= 0)
+                        {
+                            <li>
+                                <h4>"@Model.Title" için henüz yorum yapılmamıştır. İlk yorumu siz yapın..</h4>
+                            </li>
+                        }
+                        @foreach (var comments in Model.Comments)
+                        {
+                            <li class="review-item">
+                                <div class="review-media">
+                                    <a class="review-avatar" href="#">
+                                        <img src="~/theme/images/avatar/user.png" alt="review">
+                                    </a>
+                                    <h5 class="review-meta">
+                                        <a href="#">@comments.NameSurname</a>
+                                        <span>@(((DateTime)comments.CreatingDate).ToString("dd.MM.yyyy"))</span>
+                                    </h5>
+                                </div>
+                                <ul class="review-rating">
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        if (i < comments.Star)
+                                        {
+                                            <li class="icofont-ui-rating"></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="icofont-ui-rate-blank"></li>
+                                        }
+                                    }
+                                </ul>
+                                <p class="review-desc">@comments.Content</p>
+                            </li>
+                        }
                     </ul>
                 </div>
                 <div class="product-details-frame">
-                    <h3 class="frame-title">add your review</h3>
-                    <form class="review-form">
+                    <h3 class="frame-title">Yorum Yap</h3>
+                    <form class="review-form" method="post" action="~/Product/CommentAdd">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="star-rating">
-                                    <input type="radio" name="rating" id="star-1"><label for="star-1"></label>
-                                    <input type="radio" name="rating" id="star-2"><label for="star-2"></label>
-                                    <input type="radio" name="rating" id="star-3"><label for="star-3"></label>
-                                    <input type="radio" name="rating" id="star-4"><label for="star-4"></label>
-                                    <input type="radio" name="rating" id="star-5"><label for="star-5"></label>
+                                    <input type="radio" name="Star" id="star-1" value="5"><label for="star-1"></label>
+                                    <input type="radio" name="Star" id="star-2" value="4"><label for="star-2"></label>
+                                    <input type="radio" name="Star" id="star-3" value="3"><label for="star-3"></label>
+                                    <input type="radio" name="Star" id="star-4" value="2"><label for="star-4"></label>
+                                    <input type="radio" name="Star" id="star-5" value="1"><label for="star-5"></label>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <textarea class="form-control" placeholder="Describe"></textarea>
+                                    <textarea class="form-control" placeholder="Yorumunuzu yazın.." name="Content"></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Name">
+                                    <input type="text" class="form-control" placeholder="Ad soyad yazın.." name="NameSurname">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email">
+                                    <input type="email" class="form-control" placeholder="E-mail adresinizi yazın.." name="Email">
+                                    <input type="hidden" name="Type" value="True" />
+                                    <input type="hidden" name="BlogId" value="0" />
+                                    <input type="hidden" name="ProductId" value="@Model.Id" />
+                                    <input type="hidden" name="Star" value="0" />
+                                    <input type="hidden" name="Status" value="False" />
+                                    <input type="hidden" name="ProductSeoUrl" value="@Model.SeoUrl" />
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <button class="btn btn-inline">
+                                <button class="btn btn-inline" type="submit">
                                     <i class="icofont-water-drop"></i>
-                                    <span>drop your review</span>
+                                    <span>Yorumu Gönder</span>
                                 </button>
                             </div>
                         </div>
@@ -311,6 +278,24 @@
 
 @section Scripts{
 
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
 
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
 }
 

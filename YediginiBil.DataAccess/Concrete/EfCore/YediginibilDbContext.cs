@@ -17,25 +17,6 @@ namespace YediginiBil.DataAccess.Concrete.EfCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Product>()
-            //    .HasKey(c => new { c.Id });
-            //modelBuilder.Entity<Brand>()
-            //    .HasKey(c => new { c.Id });
-            //modelBuilder.Entity<Ingredient>()
-            //    .HasKey(c => new { c.Id });
-            //modelBuilder.Entity<ProductIngredient>()
-            //    .HasKey(c => new { c.Id });
-
-            //modelBuilder.Entity<ProductIngredient>(entity =>
-            //{
-            //    entity.HasOne(d => d.Ingredient)
-            //        .WithMany(p => p.ProductIngredients)
-            //        .HasForeignKey(d => d.IngredientId);
-
-            //    entity.HasOne(d => d.Product)
-            //        .WithMany(p => p.ProductIngredients)
-            //        .HasForeignKey(d => d.ProductId);
-            //});
 
         }
 
@@ -46,6 +27,10 @@ namespace YediginiBil.DataAccess.Concrete.EfCore
         public DbSet<ProductIngredient>  ProductIngredient { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogCategory> BlogCategories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Badge> Badges { get; set; }
+        public DbSet<ProductBadge> ProductBadges { get; set; }
 
     }
 }

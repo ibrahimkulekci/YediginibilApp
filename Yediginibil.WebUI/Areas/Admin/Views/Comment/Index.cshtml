@@ -1,0 +1,87 @@
+﻿@model Yediginibil.WebUI.Areas.Admin.Models.Comment.ListViewModel
+@{
+    ViewData["Title"] = "Yorumlar";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles{
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
+}
+
+
+<div class="row small-spacing">
+    <div class="col-xs-12">
+        <div class="box-content">
+            <h4 class="box-title">@ViewData["Title"]</h4>
+            <div class="dropdown js__drop_down">
+                <!-- /.sub-menu -->
+            </div>
+            <!-- /.box-title -->
+            <div class="card-content">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ad Soyad / E-Mail</th>
+                            <th>Yorum Türü / Yorum</th>
+                            <th>Ekleme Tarihi</th>
+                            <th>Yayında mı?</th>
+                            <th style="width:200px;">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Comments.Count < 0)
+                        {
+                            <h3 class="text-center">Henüz sayfa eklenmemiştir.</h3>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.Comments)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.NameSurname <br />
+                                        @item.Email
+                                    </td>
+                                    <td>
+                                        @Html.Raw(item.Type == true ? "<span class='text-success'>Ürün Yorumu</span>" : "<span class='text-danger'>Blog Yorumu</span>") <br />
+                                        @item.Content
+                                    </td>
+                                    <td>@(((DateTime)item.CreatingDate).ToString("dd.MM.yyyy"))</td>
+                                    <td>@Html.Raw(item.Status == true ? "<span class='text-success'>Yayında</span>" : "<span class='text-danger'>Yayında Değil</span>")</td>
+                                    <td>
+                                        <a href="~/Admin/Comment/Edit/@item.Id">Düzenle</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div page-model="@Model.PageInfo"></div>
+            </div>
+        </div>
+        <!-- /.box-content -->
+    </div>
+    <!-- /.col-xs-12 -->
+</div>
+
+@section Scripts{
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
+
+}

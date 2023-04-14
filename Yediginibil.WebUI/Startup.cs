@@ -44,6 +44,15 @@ namespace Yediginibil.WebUI
             services.AddScoped<IBlogDal, EfCoreBlogDal>();
             services.AddScoped<IBlogService, BlogManager>();
 
+            services.AddScoped<IBlogCategoryDal, EfCoreBlogCategoryDal>();
+            services.AddScoped<IBlogCategoryService, BlogCategoryManager>();
+
+            services.AddScoped<ICommentDal, EfCoreCommentDal>();
+            services.AddScoped<ICommentService, CommentManager>();
+
+            services.AddScoped<IBadgeDal, EfCoreBadgeDal>();
+            services.AddScoped<IBadgeService, BadgeManager>();
+
 
             services.AddControllersWithViews();
         }

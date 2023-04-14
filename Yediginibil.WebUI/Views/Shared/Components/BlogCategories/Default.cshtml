@@ -1,0 +1,9 @@
+﻿@model List<YediginiBil.Entities.BlogCategory>
+
+<h3 class="blog-widget-title">Blog Kategorileri</h3>
+<ul class="blog-widget-category">
+    @foreach (var item in Model)
+    {
+        <li><a href="~/Blog/Category/@item.Id/@item.SeoUrl">@item.Title</a></li>
+    }
+</ul>

@@ -1,0 +1,54 @@
+﻿@model Yediginibil.WebUI.Models.Product.ListViewModel
+@{
+    ViewData["Title"] = "Tüm Ürünler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--=====================================
+                RECENT PART START
+    =======================================-->
+<section class="section recent-part" style="margin-top: 25px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-heading">
+                    <h2>Tüm Ürünler</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col">
+                    <div class="product-card">
+                        <div class="product-media">
+                            <div class="product-label">
+                                <label class="label-text sale">katkısız</label>
+                            </div>
+                            <a class="product-image" href="~/Product/Details/@product.Id/@product.SeoUrl">
+                                @*<a class="product-image" asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@item.Id" asp-route-seourl="@item.SeoUrl">*@
+                                <img src="~/@product.ImageUrl" alt="product">
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <h6 class="product-name">
+                                <a href="~/Product/Details/@product.Id/@product.SeoUrl">@product.Title</a>
+                            </h6>
+                            <a class="product-add" href="~/Product/Details/@product.Id/@product.SeoUrl">
+                                <span>ürünü incele</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div page-model="@Model.PageInfo"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=====================================
+            RECENT PART END
+=======================================-->

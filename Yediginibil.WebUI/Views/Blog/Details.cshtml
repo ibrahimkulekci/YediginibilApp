@@ -6,6 +6,7 @@
 
 @section styles{
     <link rel="stylesheet" href="~/theme/css/blog-details.css">
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
 }
 
 <section class="inner-section blog-grid" style="margin-top: 25px;">
@@ -26,11 +27,11 @@
                                     </li>
                                     <li>
                                         <i class="icofont-user-alt-3"></i>
-                                        <span>Yediğini Bil</span>
+                                        <span>@Model.Category.Title</span>
                                     </li>
                                     <li>
                                         <i class="icofont-speech-comments"></i>
-                                        <span> 25 comments</span>
+                                        <span> @Model.CommentCount Yorum</span>
                                     </li>
                                 </ul>
                                 <h2 class="blog-details-title">@Model.Title</h2>
@@ -51,96 +52,58 @@
                             </div>
                         </article>
                         <div class="blog-details-comment">
-                            <h3 class="comment-title">0 Yorum</h3>
+                            <h3 class="comment-title">@Model.CommentCount Yorum</h3>
                             <ul class="comment-list">
-                                <li class="comment-item">
-                                    <div class="comment-media">
-                                        <a class="comment-avatar" href="#">
-                                            <img src="images/avatar/01.jpg" alt="review">
-                                        </a>
-                                        <h6 class="comment-meta">
-                                            <a href="#">miron mahmud</a>
-                                            <span>June 02, 2020</span>
-                                        </h6>
-                                    </div>
-                                    <p class="comment-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                                    <form class="comment-reply">
-                                        <input type="text" placeholder="reply your comment">
-                                        <button><i class="icofont-reply"></i>reply</button>
-                                    </form>
-                                    <ul class="comment-reply-list">
-                                        <li class="comment-reply-item">
-                                            <div class="comment-media">
-                                                <a class="comment-avatar" href="#">
-                                                    <img src="images/avatar/02.jpg" alt="review">
-                                                </a>
-                                                <h6 class="comment-meta">
-                                                    <a href="#">labonno khan</a>
-                                                    <span>June 02, 2020</span>
-                                                </h6>
-                                            </div>
-                                            <p class="comment-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores</p>
-                                            <form class="comment-reply">
-                                                <input type="text" placeholder="reply your comment">
-                                                <button><i class="icofont-reply"></i>reply</button>
-                                            </form>
-                                        </li>
-                                        <li class="comment-reply-item">
-                                            <div class="comment-media">
-                                                <a class="comment-avatar" href="#">
-                                                    <img src="images/avatar/03.jpg" alt="review">
-                                                </a>
-                                                <h6 class="comment-meta">
-                                                    <a href="#">tahmina bonny</a>
-                                                    <span>June 02, 2020</span>
-                                                </h6>
-                                            </div>
-                                            <p class="comment-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores</p>
-                                            <form class="comment-reply">
-                                                <input type="text" placeholder="reply your comment">
-                                                <button><i class="icofont-reply"></i>reply</button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="comment-item">
-                                    <div class="comment-media">
-                                        <a class="comment-avatar" href="#">
-                                            <img src="images/avatar/04.jpg" alt="review">
-                                        </a>
-                                        <h6 class="comment-meta">
-                                            <a href="#">shipu shikdar</a>
-                                            <span>June 02, 2020</span>
-                                        </h6>
-                                    </div>
-                                    <p class="comment-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                                    <form class="comment-reply">
-                                        <input type="text" placeholder="reply your comment">
-                                        <button><i class="icofont-reply"></i>reply</button>
-                                    </form>
-                                </li>
+                                @if (Model.CommentCount == 0)
+                                {
+                                    <li>
+                                        <h4>"@Model.Title" için henüz yorum yapılmamıştır. İlk yorumu siz yapın..</h4>
+                                    </li>
+                                }
+                                @foreach (var comment in Model.Comments)
+                                {
+                                    <li class="comment-item">
+                                        <div class="comment-media">
+                                            <a class="comment-avatar" href="#">
+                                                <img src="~/theme/images/avatar/user.png" alt="yediğini bil yorum">
+                                            </a>
+                                            <h6 class="comment-meta">
+                                                <a href="#">@comment.NameSurname</a>
+                                                <span>@(((DateTime)comment.CreatingDate).ToString("dd.MM.yyyy"))</span>
+                                            </h6>
+                                        </div>
+                                        <p class="comment-desc">@comment.Content</p>
+                                    </li>
+                                }
+
                             </ul>
                         </div>
-                        <form class="blog-details-form">
-                            <h3 class="details-form-title">post comment</h3>
+                        <form class="blog-details-form" method="post" action="~/Blog/CommentAdd">
+                            <h3 class="details-form-title">Yorum Yap</h3>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <textarea class="form-control" placeholder="write your comment"></textarea>
+                                        <textarea class="form-control" placeholder="Yorumunuzu yazın.." name="Content"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="enter your name">
+                                        <input type="text" class="form-control" placeholder="Ad soyad yazın.." name="NameSurname">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input type="email" class="form-control" placeholder="enter your email">
+                                        <input type="email" class="form-control" placeholder="E-mail adresinizi yazın.." name="Email">
+                                        <input type="hidden" name="Type" value="False" />
+                                        <input type="hidden" name="BlogId" value="@Model.Id" />
+                                        <input type="hidden" name="ProductId" value="0" />
+                                        <input type="hidden" name="Star" value="0" />
+                                        <input type="hidden" name="Status" value="False" />
+                                        <input type="hidden" name="BlogSeoUrl" value="@Model.SeoUrl" />
                                     </div>
                                 </div>
                             </div>
-                            <button class="form-btn">post comment</button>
+                            <button class="form-btn" type="submit">Yorumu Gönder</button>
                         </form>
                     </div>
                 </div>
@@ -171,99 +134,13 @@
             </div>
             <div class="col-md-7 col-lg-4">
                 <div class="blog-widget">
-                    <h3 class="blog-widget-title">Find blogs</h3>
-                    <form class="blog-widget-form">
-                        <input type="text" placeholder="Search blogs">
-                        <button class="icofont-search-1"></button>
-                    </form>
+                    @await Component.InvokeAsync("BlogSearch")
                 </div>
                 <div class="blog-widget">
-                    <h3 class="blog-widget-title">popular feeds</h3>
-                    <ul class="blog-widget-feed">
-                        <li>
-                            <a class="blog-widget-media" href="#">
-                                <img src="images/blog-widget/01.jpg" alt="blog-widget">
-                            </a>
-                            <h6 class="blog-widget-text">
-                                <a href="#">Lorem ipsum dolor sit amet consectetur</a>
-                                <span>february 02, 2021</span>
-                            </h6>
-                        </li>
-                        <li>
-                            <a class="blog-widget-media" href="#">
-                                <img src="images/blog-widget/02.jpg" alt="blog-widget">
-                            </a>
-                            <h6 class="blog-widget-text">
-                                <a href="#">Lorem ipsum dolor sit amet consectetur</a>
-                                <span>february 02, 2021</span>
-                            </h6>
-                        </li>
-                        <li>
-                            <a class="blog-widget-media" href="#">
-                                <img src="images/blog-widget/03.jpg" alt="blog-widget">
-                            </a>
-                            <h6 class="blog-widget-text">
-                                <a href="#">Lorem ipsum dolor sit amet consectetur</a>
-                                <span>february 02, 2021</span>
-                            </h6>
-                        </li>
-                        <li>
-                            <a class="blog-widget-media" href="#">
-                                <img src="images/blog-widget/04.jpg" alt="blog-widget">
-                            </a>
-                            <h6 class="blog-widget-text">
-                                <a href="#">Lorem ipsum dolor sit amet consectetur</a>
-                                <span>february 02, 2021</span>
-                            </h6>
-                        </li>
-                        <li>
-                            <a class="blog-widget-media" href="#">
-                                <img src="images/blog-widget/05.jpg" alt="blog-widget">
-                            </a>
-                            <h6 class="blog-widget-text">
-                                <a href="#">Lorem ipsum dolor sit amet consectetur</a>
-                                <span>february 02, 2021</span>
-                            </h6>
-                        </li>
-                    </ul>
+                    @await Component.InvokeAsync("BlogPopular")
                 </div>
                 <div class="blog-widget">
-                    <h3 class="blog-widget-title">top categories</h3>
-                    <ul class="blog-widget-category">
-                        <li><a href="#">farming <span>22</span></a></li>
-                        <li><a href="#">agriculture <span>14</span></a></li>
-                        <li><a href="#">organic food <span>35</span></a></li>
-                        <li><a href="#">vegetables <span>67</span></a></li>
-                        <li><a href="#">healthy life <span>89</span></a></li>
-                    </ul>
-                </div>
-                <div class="blog-widget">
-                    <h3 class="blog-widget-title">popular tags</h3>
-                    <ul class="blog-widget-tag">
-                        <li><a href="#">farming</a></li>
-                        <li><a href="#">organic</a></li>
-                        <li><a href="#">food</a></li>
-                        <li><a href="#">healthy</a></li>
-                        <li><a href="#">agriculture</a></li>
-                        <li><a href="#">vegetables</a></li>
-                        <li><a href="#">grocery</a></li>
-                        <li><a href="#">vegan</a></li>
-                        <li><a href="#">life</a></li>
-                        <li><a href="#">enjoy</a></li>
-                    </ul>
-                </div>
-                <div class="blog-widget">
-                    <h3 class="blog-widget-title">follow us</h3>
-                    <ul class="blog-widget-social">
-                        <li><a href="#" class="icofont-facebook"></a></li>
-                        <li><a href="#" class="icofont-twitter"></a></li>
-                        <li><a href="#" class="icofont-linkedin"></a></li>
-                        <li><a href="#" class="icofont-pinterest"></a></li>
-                        <li><a href="#" class="icofont-instagram"></a></li>
-                    </ul>
-                </div>
-                <div class="blog-widget">
-                    <a href="#"><img class="img-fluid" src="images/promo/blog/01.jpg" alt="promo"></a>
+                    @await Component.InvokeAsync("BlogCategories")
                 </div>
             </div>
         </div>
@@ -272,4 +149,23 @@
 
 @section scripts{
     <link rel="stylesheet" href="~/theme/css/blog-details.css">
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace YediginiBil.DataAccess.Migrations
 {
-    public partial class mig4 : Migration
+    public partial class mig_03 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

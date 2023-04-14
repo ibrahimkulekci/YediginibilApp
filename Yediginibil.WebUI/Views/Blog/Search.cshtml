@@ -1,0 +1,98 @@
+﻿@model Yediginibil.WebUI.Models.Blog.SearchViewModel
+@{
+    ViewData["Title"] = Model.inputSearch + " İçin Arama Sonuçları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/theme/css/blog-details.css">
+}
+
+<section class="inner-section blog-grid" style="margin-top: 25px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 style="font-size:35px;">"@Model.inputSearch" için arama sonuçları:</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    @if (Model.Blogs.Count <= 0)
+                    {
+                        <div class="col-md-12">
+                            <h2 style="font-size:18px;text-transform:none;">@Html.Raw("Aramanıza uygun içerik bulunamadı. Lütfen farklı bir arama yapın.")</h2>
+                        </div>
+                    }
+                    else
+                    {
+                        foreach (var blog in Model.Blogs)
+                        {
+                            <div class="col-md-6 col-lg-6">
+                                <div class="blog-card">
+                                    <div class="blog-media">
+                                        <a class="blog-img" href="~/Blog/Details/@blog.Id/@blog.SeoUrl">
+                                            <img src="~/@blog.Image" alt="@blog.SeoTitle" title="@blog.SeoTitle">
+                                        </a>
+                                    </div>
+                                    <div class="blog-content">
+                                        <h4 class="blog-title">
+                                            <a href="~/Blog/Details/@blog.Id/@blog.SeoUrl">@blog.Title</a>
+                                        </h4>
+                                        <p class="blog-desc">
+                                            @blog.SeoDescription
+                                        </p>
+                                        <a class="blog-btn" href="~/Blog/Details/@blog.Id/@blog.SeoUrl">
+                                            <span>Devamını Oku..</span>
+                                            <i class="icofont-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="bottom-paginate">
+                            <p class="page-info">Showing 12 of 60 Results</p>
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#">
+                                        <i class="fas fa-long-arrow-alt-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">...</li>
+                                <li class="page-item"><a class="page-link" href="#">60</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">
+                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-lg-4">
+                <div class="blog-widget">
+                    @await Component.InvokeAsync("BlogSearch")
+                </div>
+                <div class="blog-widget">
+                    @await Component.InvokeAsync("BlogPopular")
+                </div>
+                <div class="blog-widget">
+                    @await Component.InvokeAsync("BlogCategories")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <link rel="stylesheet" href="~/theme/css/blog-details.css">
+}
+
