@@ -30,5 +30,8 @@ namespace YediginiBil.Entities
 
 
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; }
+        public virtual ICollection<ProductBadge> ProductBadges { get; set; }
+
+        public virtual ICollection<Nutritive> Nutritives { get; set; }
     }
 }

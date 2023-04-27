@@ -1,0 +1,48 @@
+﻿@model Yediginibil.WebUI.Areas.Admin.Models.Menu.AddLinkAddViewModel
+@{
+    ViewData["Title"] = "Menüler";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+}
+
+
+<div class="row small-spacing">
+    <div class="col-xs-12">
+        <div class="box-content">
+            <h4 class="box-title">Ürünler</h4>
+            <!-- /.box-title -->
+            <div class="card-content">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        @Html.Label("Menü Başlık")
+                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
+                    </div>
+                    <div class="form-group">
+                        <label>Üst Menü</label>
+                        @Html.DropDownListFor(m => m.ParentId, Model.ParentMenuSelectList, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Menü Adresi")
+                        @Html.TextBoxFor(x => x.Url, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Gösterim Sırası")
+                        @Html.TextBoxFor(x => x.Position, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
+                        @Html.HiddenFor(x=>x.MenuId)
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Ekle</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.box-content -->
+    </div>
+    <!-- /.col-xs-12 -->
+</div>
+
+@section Scripts{
+    <!-- Demo Scripts -->
+    <script src="~/atheme/assets/scripts/form.demo.min.js"></script>
+}

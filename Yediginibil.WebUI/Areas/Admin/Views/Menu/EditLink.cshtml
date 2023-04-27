@@ -1,0 +1,71 @@
+﻿@model Yediginibil.WebUI.Areas.Admin.Models.Menu.AddLinkAddViewModel
+@{
+    ViewData["Title"] = "Menüler";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
+}
+
+
+<div class="row small-spacing">
+    <div class="col-xs-12">
+        <div class="box-content">
+            <h4 class="box-title">@ViewData["Title"]</h4>
+            <!-- /.box-title -->
+            <div class="card-content">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        @Html.Label("Menü Başlık")
+                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
+                    </div>
+                    <div class="form-group">
+                        <label>Üst Menü</label>
+                        @Html.DropDownListFor(x => x.ParentId, Model.ParentMenuSelectList, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Menü Adresi")
+                        @Html.TextBoxFor(x => x.Url, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Gösterim Sırası")
+                        @Html.TextBoxFor(x => x.Position, new { @class = "form-control", @placeholder = "Ürün adını giriniz." })
+                        @Html.HiddenFor(x => x.MenuId)
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Güncelle</button>
+                    <div class="pull-right">
+                        <a class="btn btn-danger btn-sm waves-effect waves-light float-right" href="~/Admin/Menu/DeleteLink/@Model.Id">Sil</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.box-content -->
+    </div>
+    <!-- /.col-xs-12 -->
+</div>
+
+@section Scripts{
+    <!-- Demo Scripts -->
+    <script src="~/atheme/assets/scripts/form.demo.min.js"></script>
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
+}

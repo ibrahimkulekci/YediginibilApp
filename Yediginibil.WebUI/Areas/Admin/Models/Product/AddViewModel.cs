@@ -37,5 +37,16 @@ namespace Yediginibil.WebUI.Areas.Admin.Models.Product
         //
         public List<SelectListItem> drpIngredients { get; set; }
         public int[] IngredientsIds { get; set; }
+        //badge select list
+        public List<SelectListItem> BadgeSelectList { get; set; }
+        public List<SelectListItem> drpBadges { get; set; }
+        public int[] BadgesIds { get; set; }
+
+        //
+        public string[] nutritiveName { get; set; }
+        public string[] nutritiveValue { get; set; }
+        public IEnumerable<Nutritive> Nutritives { get; set; }
+
+
     }
 }

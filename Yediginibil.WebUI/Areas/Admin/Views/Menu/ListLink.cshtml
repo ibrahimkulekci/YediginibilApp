@@ -1,0 +1,82 @@
+﻿@model Yediginibil.WebUI.Areas.Admin.Models.Menu.ListViewModel
+@{
+    ViewData["Title"] = '"'+Model.MenuTitle+'"'+  " Elemanları - Menüler";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles{
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
+}
+
+
+<div class="row small-spacing">
+    <div class="col-xs-12">
+        <div class="box-content">
+            <h4 class="box-title">@ViewData["Title"]</h4>
+            <div class="dropdown js__drop_down">
+                <a href="~/Admin/Menu/AddLink/@Model.MenuId" class="btn btn-primary btn-sm waves-effect waves-light">Yeni Eleman Ekle</a>
+                <!-- /.sub-menu -->
+            </div>
+            <!-- /.box-title -->
+            <div class="card-content">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Başlık</th>
+                            <th>Url</th>
+                            <th>Üst Kategori</th>
+                            <th>Gösterim Sırası</th>
+                            <th style="width:200px;">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.MenuLinks.Count <= 0)
+                        {
+                            <h3 class="text-center">Henüz menü elemanı eklenmemiştir.</h3>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.MenuLinks)
+                            {
+                                <tr>
+                                    <td>@item.Title</td>
+                                    <td>@item.Url</td>
+                                    <td>#üst_kategori_gelecek</td>
+                                    <td>@item.Position</td>
+                                    <td>
+                                        <a href="~/Admin/Menu/EditLink/@item.Id">Düzenle</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div page-model="@Model.PageInfo"></div>
+            </div>
+        </div>
+        <!-- /.box-content -->
+    </div>
+    <!-- /.col-xs-12 -->
+</div>
+
+@section Scripts{
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
+
+}

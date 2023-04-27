@@ -12,5 +12,6 @@ namespace YediginiBil.DataAccess.Abstract
         Badge GetOne();
         List<Badge> GetAll(int page, int pageSize);
         int GetAllCount();
+        IEnumerable<Badge> GetByProductId(int id);
     }
 }

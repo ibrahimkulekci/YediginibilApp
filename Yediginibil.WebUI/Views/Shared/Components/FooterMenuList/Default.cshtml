@@ -1,0 +1,12 @@
+﻿@model IEnumerable<YediginiBil.Entities.MenuLink>
+
+
+<div class="footer-links">
+    <ul>
+        @foreach (var item in Model.Where(x => x.ParentId == 0))
+        {
+            <li><a href="@item.Url">@item.Title</a></li>
+        }
+
+    </ul>
+</div>

@@ -15,13 +15,23 @@ namespace Yediginibil.WebUI.Controllers
         private IProductIngredientService _productIngredientService;
         private IIngredientService _ingredient;
         private ICommentService _commentService;
+        private IBadgeService _badgeService;
+        private INutritiveService _nutritiveService;
 
-        public ProductController(ICommentService commentService,IIngredientService ingredient, IProductIngredientService productIngredientService, IProductService productService)
+        public ProductController(
+            ICommentService commentService,
+            IIngredientService ingredient, 
+            IProductIngredientService productIngredientService, 
+            IProductService productService,
+            IBadgeService badgeService,
+            INutritiveService nutritiveService)
         {
             _ingredient = ingredient;
             _productIngredientService = productIngredientService;
             _productService = productService;
             _commentService = commentService;
+            _badgeService = badgeService;
+            _nutritiveService = nutritiveService;
         }
 
 
@@ -54,10 +64,12 @@ namespace Yediginibil.WebUI.Controllers
             model.LongDescription = product.LongDescription;
 
             model.Ingredients = _ingredient.GetByProductId(id);
+            model.Badges = _badgeService.GetByProductId(id);
+
             model.Comments = _commentService.GetAll().Where(x => x.ProductId == id && x.Status == true).ToList();
             model.CommentCount = _commentService.GetAll().Where(x => x.ProductId == id && x.Status == true).Count();
             model.CommentStarAvg = Convert.ToInt32(_commentService.GetAll().Where(y => y.ProductId == id && y.Status == true).Select(x => x.Star).DefaultIfEmpty().Average());
-
+            model.Nutritives = _nutritiveService.GetAll().Where(x => x.ProductId == id && x.Status == true).ToList();
 
 
             return View(model);

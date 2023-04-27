@@ -18,5 +18,7 @@ namespace YediginiBil.Entities
 
         public DateTime CreatingDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+
+        public virtual ICollection<ProductBadge> ProductBadges { get; set; }
     }
 }

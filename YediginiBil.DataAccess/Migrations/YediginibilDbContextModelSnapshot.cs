@@ -247,6 +247,83 @@ namespace YediginiBil.DataAccess.Migrations
                     b.ToTable("Ingredients");
                 });
 
+            modelBuilder.Entity("YediginiBil.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Menus");
+                });
+
+            modelBuilder.Entity("YediginiBil.Entities.MenuLink", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MenuLinks");
+                });
+
+            modelBuilder.Entity("YediginiBil.Entities.Nutritive", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Nutritives");
+                });
+
             modelBuilder.Entity("YediginiBil.Entities.Page", b =>
                 {
                     b.Property<int>("Id")
@@ -349,6 +426,10 @@ namespace YediginiBil.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BadgeId");
+
+                    b.HasIndex("ProductId");
+
                     b.ToTable("ProductBadges");
                 });
 
@@ -392,6 +473,34 @@ namespace YediginiBil.DataAccess.Migrations
                     b.ToTable("ProductIngredient");
                 });
 
+            modelBuilder.Entity("YediginiBil.Entities.Nutritive", b =>
+                {
+                    b.HasOne("YediginiBil.Entities.Product", null)
+                        .WithMany("Nutritives")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("YediginiBil.Entities.ProductBadge", b =>
+                {
+                    b.HasOne("YediginiBil.Entities.Badge", "Badge")
+                        .WithMany("ProductBadges")
+                        .HasForeignKey("BadgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YediginiBil.Entities.Product", "Product")
+                        .WithMany("ProductBadges")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Badge");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("YediginiBil.Entities.ProductIngredient", b =>
                 {
                     b.HasOne("YediginiBil.Entities.Ingredient", "Ingredient")
@@ -411,6 +520,11 @@ namespace YediginiBil.DataAccess.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("YediginiBil.Entities.Badge", b =>
+                {
+                    b.Navigation("ProductBadges");
+                });
+
             modelBuilder.Entity("YediginiBil.Entities.Ingredient", b =>
                 {
                     b.Navigation("ProductIngredients");
@@ -418,6 +532,10 @@ namespace YediginiBil.DataAccess.Migrations
 
             modelBuilder.Entity("YediginiBil.Entities.Product", b =>
                 {
+                    b.Navigation("Nutritives");
+
+                    b.Navigation("ProductBadges");
+
                     b.Navigation("ProductIngredients");
                 });
 #pragma warning restore 612, 618

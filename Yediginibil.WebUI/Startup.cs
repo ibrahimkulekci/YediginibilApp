@@ -53,6 +53,18 @@ namespace Yediginibil.WebUI
             services.AddScoped<IBadgeDal, EfCoreBadgeDal>();
             services.AddScoped<IBadgeService, BadgeManager>();
 
+            services.AddScoped<IProductBadgeDal, EfCoreProductBadgeDal>();
+            services.AddScoped<IProductBadgeService, ProductBadgeManager>();
+
+            services.AddScoped<INutritiveDal, EfCoreNutritiveDal>();
+            services.AddScoped<INutritiveService, NutritiveManager>();
+
+            services.AddScoped<IMenuDal, EfCoreMenuDal>();
+            services.AddScoped<IMenuService, MenuManager>();
+
+            services.AddScoped<IMenuLinkDal, EfCoreMenuLinkDal>();
+            services.AddScoped<IMenuLinkService, MenuLinkManager>();
+
 
             services.AddControllersWithViews();
         }

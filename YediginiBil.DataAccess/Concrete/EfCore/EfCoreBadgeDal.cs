@@ -32,6 +32,18 @@ namespace YediginiBil.DataAccess.Concrete.EfCore
             }
         }
 
+        public IEnumerable<Badge> GetByProductId(int id)
+        {
+            var context = new YediginibilDbContext();
+
+            var record = from i in context.Badges
+                         join pi in context.ProductBadges on i.Id equals pi.BadgeId
+                         where pi.ProductId == id
+                         select i;
+
+            return record.ToList();
+        }
+
         public Badge GetOne()
         {
             throw new NotImplementedException();

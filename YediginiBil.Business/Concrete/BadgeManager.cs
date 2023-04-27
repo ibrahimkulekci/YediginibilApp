@@ -48,6 +48,11 @@ namespace YediginiBil.Business.Concrete
             return _badgeDal.GetById(id);
         }
 
+        public IEnumerable<Badge> GetByProductId(int id)
+        {
+            return _badgeDal.GetByProductId(id);
+        }
+
         public void Update(Badge entity)
         {
             _badgeDal.Update(entity);

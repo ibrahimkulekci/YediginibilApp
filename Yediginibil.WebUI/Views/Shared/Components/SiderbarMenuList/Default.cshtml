@@ -1,0 +1,24 @@
+﻿@model IEnumerable<YediginiBil.Entities.MenuLink>
+
+
+
+<div class="nav-content">
+    <ul class="nav-list">
+        @foreach (var item in Model.Where(x => x.ParentId == 0))
+        {
+            <li>
+                <a href="@item.Url" class="nav-link">@item.Title</a>
+                @if (Model.Where(x => x.ParentId == item.Id).Count() > 0)
+                {
+                    <ul class="dropdown-list">
+                        @foreach (var item2 in Model.Where(x => x.ParentId == item.Id))
+                        {
+                            <li><a href="home-grid.html">Home grid</a></li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+
+    </ul>
+</div>

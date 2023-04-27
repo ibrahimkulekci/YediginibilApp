@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="~/atheme/assets/plugin/select2/css/select2.min.css">
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <link href="~/atheme/assets/plugin/toastr/toastr.min.css" rel="stylesheet" />
 }
 
 
@@ -45,11 +46,36 @@
                         @*@Html.DropDownListFor(model => model.IngredientList, new MultiSelectList(Model.selectListIngredientAll, "Value", "Text"), new { @class = "form-control select2_1" })*@
                         @*@Html.DropDownListFor(x => x.productIdByIngredientValues, Model.productIdByIngredientValues, new { @class = "form-control", multiple = "true" })*@
                         @*allIngredientValues
-            productIdByIngredientValues*@
+                            productIdByIngredientValues*@
 
                         @Html.ListBoxFor(model => model.IngredientsIds, new MultiSelectList(Model.drpIngredients, "Value", "Text"), new { @class = "form-control select2_1", multiple = "multiple" })
 
                     </div>
+                    <div class="form-group">
+                        <label>Ürün Rozetleri</label>
+                        @Html.ListBoxFor(model => model.BadgesIds, new MultiSelectList(Model.drpBadges, "Value", "Text"), new { @class = "form-control select2_1", multiple = "multiple" })
+
+                    </div>
+                    <div class="from-group" id="besindegerleri">
+                        <label>Besin Değerleri</label><br />
+                        <a onclick="createNutrive()" class="btn btn-success btn-sm waves-effect waves-light">Yeni Besin Değeri Oluştur</a><br /><br />
+
+                        @foreach (var nutritive in Model.Nutritives)
+                        {
+                            <ul class="list-inline margin-bottom-0" id="ul-data-@nutritive.Id">
+                                <li class="form-group">
+                                    <input type="text" name="nutritiveName[]" value="@nutritive.Name" class="form-control" />
+                                </li>
+                                <li class="form-group">
+                                    <input type="text" name="nutritiveValue[]" value="@nutritive.Value" class="form-control" />
+                                </li>
+                                <li class="form-group">
+                                    <a class="btn btn-danger btn-sm waves-effect waves-light" onclick="deleteBtn('ul-data-@nutritive.Id')">Sil</a>
+                                </li>                                
+                            </ul>
+                        }
+
+                        </div>
                     <div class="form-group">
                         @Html.Label("Ürün Uzun Açıklaması")
                         @Html.TextAreaFor(x => x.LongDescription, new { @id = "tinymce", @placeholder = "Ürün uzun açıklamasını giriniz" })
@@ -158,4 +184,74 @@
 
     <!-- Demo Scripts -->
     <script src="~/atheme/assets/scripts/form.demo.min.js"></script>
+
+    <script src="~/atheme/assets/plugin/toastr/toastr.min.js"></script>
+
+    @{ if ((string)TempData["Message"] == "Success")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.success("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+        else if ((string)TempData["Message"] == "Error")
+        {
+            <script>
+                $(document).ready(function onDocumentReady() {
+                    toastr.error("@TempData["Message_Detail"]");
+                });
+            </script>
+        }
+    }
+    <script>
+        var count = 0;
+
+        function createNutrive() {
+
+            var div = document.getElementById("besindegerleri");
+            var ul = document.createElement("ul")
+            ul.className = "list-inline margin-bottom-0";
+            ul.setAttribute("id", "ul-" + count + "")
+            div.appendChild(ul);
+
+            var li = document.createElement("li")
+            li.className = "form-group";
+            ul.appendChild(li);
+
+            var inputName = document.createElement("input");
+            inputName.setAttribute("type", "text");
+            inputName.setAttribute("class", "form-control");
+            inputName.setAttribute("name", "nutritiveName[]");
+            inputName.setAttribute("placeholder", "Lütfen değer adı giriniz..");
+            li.appendChild(inputName);
+
+            var li2 = document.createElement("li")
+            li2.className = "form-group";
+            ul.appendChild(li2);
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "text");
+            input.setAttribute("class", "form-control");
+            input.setAttribute("name", "nutritiveValue[]");
+            input.setAttribute("placeholder", "Lütfen değer giriniz..");
+            li2.appendChild(input);
+
+            var li3 = document.createElement("li")
+            li3.className = "form-group";
+            ul.appendChild(li3);
+
+            var button = document.createElement("a");
+            button.setAttribute("onclick", "deleteBtn('ul-" + count + "');");
+            button.setAttribute("class", "btn btn-danger btn-sm waves-effect waves-light");
+            button.textContent = "Sil";
+            li3.appendChild(button);
+
+            count++;
+        };
+        function deleteBtn(p) {
+            document.getElementById(p).outerHTML = "";
+        }
+    </script>
+
 }

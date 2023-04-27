@@ -10,7 +10,11 @@ namespace Yediginibil.WebUI.Models.Product
     {
         //public YediginiBil.Entities.Product Product { get; set; }
         public IEnumerable<YediginiBil.Entities.Ingredient> Ingredients { get; set; }
+        public IEnumerable<YediginiBil.Entities.Badge> Badges { get; set; }
         public List<YediginiBil.Entities.Comment> Comments { get; set; }
+        public List<YediginiBil.Entities.Nutritive> Nutritives { get; set; }
+
+
         public int CommentCount { get; set; }
         public int CommentStarAvg { get; set; }
 

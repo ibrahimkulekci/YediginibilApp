@@ -26,13 +26,26 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
         private IBrandService _brandService;
         private IIngredientService _ingredientService;
         private IProductIngredientService _productIngredientService;
+        private IBadgeService _badgeService;
+        private IProductBadgeService _productBadgeService;
+        private INutritiveService _nutritiveService;
 
-        public ProductController(IProductIngredientService productIngredientService,IIngredientService ingredientService,IBrandService brandService, IProductService productService)
+        public ProductController(
+            IProductIngredientService productIngredientService,
+            IIngredientService ingredientService,
+            IBrandService brandService, 
+            IProductService productService,
+            IBadgeService badgeService,
+            IProductBadgeService productBadgeService,
+            INutritiveService nutritiveService)
         {
             _productIngredientService = productIngredientService;
             _ingredientService = ingredientService;
             _brandService = brandService;
             _productService = productService;
+            _badgeService = badgeService;
+            _productBadgeService = productBadgeService;
+            _nutritiveService = nutritiveService;
         }
 
         public IActionResult Index(int page=1)
@@ -56,12 +69,15 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             model.Status = true;
             model.BrandSelectList = GetBrandSelectList();
             model.IngredientSelectList = GetIngredientSelectList();
+            model.BadgeSelectList = GetBadgeSelectList();
 
             return View(model);
         }
+
         [HttpPost]
         public IActionResult Add(AddViewModel model)
         {
+
             if (model.File != null)
             {
                 var extension = Path.GetExtension(model.File.FileName);
@@ -87,7 +103,7 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             record.Status = model.Status;
 
             if (model.SeoTitle == null) { model.SeoTitle = model.Title; }
-            if(model.SeoUrl==null) { model.SeoUrl = SeoHelper.ConvertToValidUrl(model.Title); }
+            if (model.SeoUrl == null) { model.SeoUrl = SeoHelper.ConvertToValidUrl(model.Title); }
             if (model.SeoDescription == null) { model.SeoDescription = model.ShortDescription; }
 
             record.SeoTitle = model.SeoTitle;
@@ -111,6 +127,35 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
                 _productIngredientService.Create(recordPI);
             }
 
+            ProductBadge recordPB = new ProductBadge();
+            for (int i = 0; i < model.BadgesIds.Count(); i++)
+            {
+                recordPB.Id = 0;
+                recordPB.BadgeId = Convert.ToInt32(model.BadgesIds[i].ToString());
+                recordPB.ProductId = productId;
+
+                _productBadgeService.Create(recordPB);
+            }
+
+            Nutritive recordN = new Nutritive();
+
+            for (int i = 0; i < model.nutritiveName.Count(); i++)
+            {
+                recordN.Id = 0;
+                recordN.Name = model.nutritiveName[i].ToString();
+                recordN.Value = model.nutritiveValue[i].ToString();
+                recordN.ProductId = productId;
+                recordN.Status = true;
+                recordN.CreatingDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+                recordN.UpdatingDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+
+                _nutritiveService.Create(recordN);
+            }
+
+
+
+
+
             TempData["Message"] = "Success";
             TempData["Message_Detail"] = "Ürün başarıyla eklendi.";
             return Redirect("~/Admin/Product");
@@ -121,6 +166,7 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             AddViewModel model = new AddViewModel();
 
             List<int> ingredinetsIds = new List<int>();
+            List<int> badgesIds = new List<int>();
 
             var record = context.Products.Include("ProductIngredients").FirstOrDefault(x => x.Id == id);
             record.ProductIngredients.ToList().ForEach(result => ingredinetsIds.Add(result.IngredientId));
@@ -128,8 +174,15 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             model.drpIngredients = context.Ingredients.Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
             model.IngredientsIds = ingredinetsIds.ToArray();
 
+            //
+            record = context.Products.Include("ProductBadges").FirstOrDefault(x => x.Id == id);
+            record.ProductBadges.ToList().ForEach(result => badgesIds.Add(result.BadgeId));
+
+            model.drpBadges = context.Badges.Select(x => new SelectListItem { Text = x.Title, Value = x.Id.ToString() }).ToList();
+            model.BadgesIds = badgesIds.ToArray();
 
             model.BrandSelectList = GetBrandSelectList();
+            model.Nutritives = _nutritiveService.GetByProductId(id);
 
             if (record == null)
             {
@@ -160,6 +213,8 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
         {
             Product product = new Product();
             List<ProductIngredient> productIngredients = new List<ProductIngredient>();
+            List<ProductBadge> productBadges = new List<ProductBadge>();
+            List<Nutritive> nutritives = new List<Nutritive>();
 
             if (model.Id > 0)
             {
@@ -167,11 +222,24 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
                 product.ProductIngredients.ToList().ForEach(result => productIngredients.Add(result));
                 context.ProductIngredient.RemoveRange(productIngredients);
                 context.SaveChanges();
+
+                product = context.Products.Include("ProductBadges").FirstOrDefault(x => x.Id == model.Id);
+                product.ProductBadges.ToList().ForEach(result => productBadges.Add(result));
+                context.ProductBadges.RemoveRange(productBadges);
+                context.SaveChanges();
+
+                product = context.Products.Include("Nutritives").FirstOrDefault(x => x.Id == model.Id);
+                product.Nutritives.ToList().ForEach(result => nutritives.Add(result));
+                context.Nutritives.RemoveRange(nutritives);
+                context.SaveChanges();
+
+
                 product.Title = model.Title;
                 product.Barcode = model.Barcode;
                 product.BrandId = model.BrandId;
                 product.ShortDescription = model.ShortDescription;
-                if (model.IngredientsIds.Length > 0)
+
+                if (model.IngredientsIds != null)
                 {
                     productIngredients = new List<ProductIngredient>();
                     foreach (var ingredientId in model.IngredientsIds)
@@ -180,6 +248,35 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
                     }
                     product.ProductIngredients = productIngredients;
                 }
+
+                if (model.BadgesIds != null)
+                {
+                    productBadges = new List<ProductBadge>();
+                    foreach (var badgeId in model.BadgesIds)
+                    {
+                        productBadges.Add(new ProductBadge { BadgeId = badgeId, ProductId = model.Id });
+                    }
+                    product.ProductBadges = productBadges;
+                }
+
+                if (model.nutritiveName != null)
+                {
+                    nutritives = new List<Nutritive>();
+                    for (int i = 0; i < model.nutritiveName.Count(); i++)
+                    {
+                        nutritives.Add(new Nutritive { 
+                            Name = model.nutritiveName[i], 
+                            CreatingDate= DateTime.Parse(DateTime.Now.ToShortDateString()),
+                            ProductId=model.Id,
+                            Status=true,
+                            UpdatingDate=DateTime.Parse(DateTime.Now.ToShortDateString()),
+                            Value=model.nutritiveValue[i]
+                        });
+                    }
+                    product.Nutritives = nutritives;
+                }
+
+
                 if (model.File != null)
                 {
                     var extension = Path.GetExtension(model.File.FileName);
@@ -210,8 +307,36 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
                     }
                     product.ProductIngredients = productIngredients;
                 }
+
+                if (model.BadgesIds.Length > 0)
+                {
+                    foreach (var badgesId in model.BadgesIds)
+                    {
+                        productBadges.Add(new ProductBadge { BadgeId = badgesId, ProductId = model.Id });
+                    }
+                    product.ProductBadges = productBadges;
+                }
+                if (model.nutritiveName != null)
+                {
+                    nutritives = new List<Nutritive>();
+                    for (int i = 0; i < model.nutritiveName.Count(); i++)
+                    {
+                        nutritives.Add(new Nutritive
+                        {
+                            Name = model.nutritiveName[i],
+                            CreatingDate = DateTime.Parse(DateTime.Now.ToShortDateString()),
+                            ProductId = model.Id,
+                            Status = true,
+                            UpdatingDate = DateTime.Parse(DateTime.Now.ToShortDateString()),
+                            Value = model.nutritiveValue[i]
+                        });
+                    }
+                    product.Nutritives = nutritives;
+                }
+
                 context.Products.Add(product);
                 context.SaveChanges();
+
             }
 
             TempData["Message"] = "Success";
@@ -224,11 +349,23 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             List<ProductIngredient> productIngredients = new List<ProductIngredient>();
             Product product = new Product();
             AddViewModel model = new AddViewModel();
+            List<ProductBadge> productBadges = new List<ProductBadge>();
+            List<Nutritive> nutritives = new List<Nutritive>();
 
 
             product = context.Products.Include("ProductIngredients").FirstOrDefault(x => x.Id == id);
             product.ProductIngredients.ToList().ForEach(result => productIngredients.Add(result));
             context.ProductIngredient.RemoveRange(productIngredients);
+            context.SaveChanges();
+
+            product = context.Products.Include("ProductBadges").FirstOrDefault(x => x.Id == model.Id);
+            product.ProductBadges.ToList().ForEach(result => productBadges.Add(result));
+            context.ProductBadges.RemoveRange(productBadges);
+            context.SaveChanges();
+
+            product = context.Products.Include("Nutritives").FirstOrDefault(x => x.Id == model.Id);
+            product.Nutritives.ToList().ForEach(result => nutritives.Add(result));
+            context.Nutritives.RemoveRange(nutritives);
             context.SaveChanges();
 
 
@@ -270,24 +407,20 @@ namespace Yediginibil.WebUI.Areas.Admin.Controllers
             return Redirect("~/Admin/Product/");
         }
 
-
-
-
-
-        [NonAction]
-        private List<SelectListItem> GetIngredientSelectedList(int id)
-        {
-            return _productIngredientService.GetByProductId(id).Select(r => new SelectListItem() {Value=r.IngredientId.ToString(), Text = string.Format("{0}", r.Product.Title.ToString()) }).ToList();
-        }
         [NonAction]
         private List<SelectListItem> GetIngredientSelectList()
         {
-            return _ingredientService.GetAll().Select(r => new SelectListItem() { Value = r.Id.ToString(), Text = string.Format("{0}", r.Title) }).ToList();
+            return _ingredientService.GetAll().Where(x => x.Status == true).Select(r => new SelectListItem() { Value = r.Id.ToString(), Text = string.Format("{0}", r.Title) }).ToList();
         }
         [NonAction]
         private List<SelectListItem> GetBrandSelectList()
         {
-            return _brandService.GetAll().Select(r => new SelectListItem() { Value = r.Id.ToString(), Text = string.Format("{0}", r.Title) }).ToList();
+            return _brandService.GetAll().Where(x => x.Status == true).Select(r => new SelectListItem() { Value = r.Id.ToString(), Text = string.Format("{0}", r.Title) }).ToList();
+        }
+        [NonAction]
+        private List<SelectListItem> GetBadgeSelectList()
+        {
+            return _badgeService.GetAll().Where(x=>x.Status==true).Select(r => new SelectListItem() { Value = r.Id.ToString(), Text = string.Format("{0}", r.Title) }).ToList();
         }
     }
 }

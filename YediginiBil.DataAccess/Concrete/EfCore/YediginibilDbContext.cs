@@ -31,6 +31,9 @@ namespace YediginiBil.DataAccess.Concrete.EfCore
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Badge> Badges { get; set; }
         public DbSet<ProductBadge> ProductBadges { get; set; }
+        public DbSet<Nutritive> Nutritives { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<MenuLink> MenuLinks { get; set; }
 
     }
 }

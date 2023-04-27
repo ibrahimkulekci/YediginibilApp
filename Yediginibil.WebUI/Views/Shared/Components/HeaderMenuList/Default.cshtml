@@ -1,0 +1,29 @@
+﻿@model IEnumerable<YediginiBil.Entities.MenuLink>
+
+<nav class="navbar-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="navbar-content">
+                    <ul class="navbar-list">
+                        @foreach (var item in Model.Where(x => x.ParentId == 0))
+                        {
+                            <li class="navbar-item">
+                                <a href="@item.Url" class="navbar-link">@item.Title</a>
+                                @if (Model.Where(x => x.ParentId == item.Id).Count() > 0)
+                                {
+                                    <ul class="dropdown-position-list">
+                                        @foreach (var item2 in Model.Where(x => x.ParentId == item.Id))
+                                        {
+                                            <li><a href="@item2.Url">@item2.Title</a></li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
